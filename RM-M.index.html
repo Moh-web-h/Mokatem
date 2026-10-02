@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0e7490">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdn.sheetjs.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; script-src-elem 'self' 'unsafe-inline' https://unpkg.com https://cdn.sheetjs.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.jsdelivr.net; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com https://server.arcgisonline.com; connect-src 'self' https://nominatim.openstreetmap.org https://photon.komoot.io https://router.project-osrm.org https://routing.openstreetmap.de https://overpass-api.de https://overpass.kumi.systems https://overpass.private.coffee https://overpass.openstreetmap.ru https://overpass.osm.ch https://overpass.osm.jp https://overpass.osm.rambler.ru https://overpass.mail.ru https://cdn.sheetjs.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; media-src 'self' blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
+<title>مُوزِّع المقطم M2.5 — Remedy Overseas</title>
+<meta name="author" content="Dr. Mohamed Abu Harb — Remedy Overseas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+<style>
+:root{--bg:#f0f9ff;--card:#fff;--ink:#0f172a;--muted:#64748b;--brand:#0e7490;--brand-2:#155e75;--brand-lt:#cffafe;--ok:#16a34a;--warn:#f59e0b;--danger:#dc2626;--border:#e2e8f0;--sh-sm:0 1px 2px rgba(15,23,42,.06);--sh:0 2px 8px rgba(15,23,42,.08);--sh-lg:0 12px 40px rgba(15,23,42,.2);--st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f172a;--card:#1e293b;--ink:#f1f5f9;--muted:#94a3b8;--brand:#0891b2;--brand-2:#0e7490;--brand-lt:#164e63;--border:#334155}:root:not([data-theme="light"]) input,:root:not([data-theme="light"]) textarea,:root:not([data-theme="light"]) select{background:#0f172a !important;color:#f1f5f9 !important}:root:not([data-theme="light"]) .item{background:#1e293b !important}:root:not([data-theme="light"]) .area-header{background:#164e63 !important;color:#cffafe !important}:root:not([data-theme="light"]) .stat{background:#164e63 !important}}
+:root[data-theme="dark"]{--bg:#0f172a;--card:#1e293b;--ink:#f1f5f9;--muted:#94a3b8;--brand:#0891b2;--brand-2:#0e7490;--brand-lt:#164e63;--border:#334155}:root[data-theme="dark"] input,:root[data-theme="dark"] textarea,:root[data-theme="dark"] select{background:#0f172a !important;color:#f1f5f9 !important}:root[data-theme="dark"] .item{background:#1e293b !important}:root[data-theme="dark"] .area-header{background:#164e63 !important;color:#cffafe !important}:root[data-theme="dark"] .stat{background:#164e63 !important}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overscroll-behavior:none}
+body{margin:0;font-family:'Cairo',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea,select{font-family:inherit;font-size:16px}
+.app{display:flex;flex-direction:column-reverse;height:100vh;height:100dvh}
+.map-wrap{position:relative;height:40vh;height:40dvh;flex:none;box-shadow:0 4px 20px rgba(15,23,42,.1)}
+#map{position:absolute;inset:0;background:#dbe4ee}
+.sidebar{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px;background:var(--bg);padding-top:calc(14px + var(--st));padding-bottom:calc(90px + var(--sb));-webkit-overflow-scrolling:touch}
+.brand{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#0e7490,#0891b2);color:#fff;padding:14px;border-radius:18px;box-shadow:var(--sh)}
+.brand .logo{width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:22px;flex:none}
+.brand h1{margin:0;font-size:18px;font-weight:800}
+.brand .ver{display:inline-block;background:rgba(255,255,255,.25);padding:1px 7px;border-radius:6px;font-size:11px;margin-right:4px;font-weight:800}
+.brand p{margin:3px 0 0;font-size:11.5px;opacity:.9}
+.brand .credit{margin-top:3px;font-size:10.5px;opacity:.85;font-style:italic}
+.panel{background:var(--card);border-radius:16px;padding:14px;box-shadow:var(--sh-sm);border:1px solid var(--border)}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.panel-head h2{margin:0;font-size:14px;font-weight:700}
+.badge{background:var(--brand);color:#fff;border-radius:99px;padding:2px 10px;font-size:12px;margin-inline-start:6px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;min-width:24px}
+.row{margin-bottom:10px}.row:last-child{margin-bottom:0}
+.btns{display:flex;gap:8px}.btns>*{flex:1}
+.field{position:relative}
+.field .ic{position:absolute;top:50%;transform:translateY(-50%);right:12px;font-size:16px;opacity:.5;pointer-events:none}
+input[type=text],input[type=number],input[type=month],textarea{width:100%;padding:13px 40px 13px 13px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;background:#f8fafc;color:var(--ink);outline:none;font-weight:500}
+input:focus,textarea:focus{border-color:var(--brand);background:#fff}
+textarea{resize:vertical;line-height:1.8;font-size:13.5px;padding:12px;min-height:80px}
+.primary{background:var(--brand);color:#fff;padding:13px 14px;border-radius:12px;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;gap:6px;min-height:48px}
+.primary:active{background:var(--brand-2);transform:scale(.98)}
+.primary.big{padding:15px;font-size:15px;width:100%;min-height:52px}
+.ghost{background:#f1f5f9;color:var(--ink);padding:13px 14px;border-radius:12px;font-weight:600;font-size:13.5px;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;gap:6px;min-height:48px}
+.ghost:active{background:#e2e8f0}
+.link{font-size:12.5px;font-weight:700;color:var(--brand);padding:6px}
+.link.danger{color:var(--danger)}
+.hint{font-size:13px;color:var(--brand);font-weight:700;margin-top:10px;display:none;padding:10px 12px;background:var(--brand-lt);border-radius:10px;text-align:center}
+.hint.show{display:block}
+.area-filter{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.area-chip{background:#f1f5f9;border:1.5px solid var(--border);color:var(--ink);padding:5px 9px;border-radius:99px;font-size:11px;font-weight:700;cursor:pointer}
+.area-chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+.type-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.type-chip{background:#f1f5f9;border:1.5px solid var(--border);color:var(--ink);padding:6px 10px;border-radius:99px;font-size:11.5px;font-weight:700;cursor:pointer}
+.type-chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+select{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;background:#f8fafc;color:var(--ink);outline:none;font-family:inherit;font-weight:600;cursor:pointer}
+.mini-select{padding:10px 12px;font-size:12.5px}
+.filter-bar{display:flex;gap:6px;align-items:center;background:#f8fafc;border-radius:10px;padding:6px 8px;border:1px solid var(--border);margin-top:8px;font-size:11px;font-weight:700;flex-wrap:wrap}
+.filter-bar:empty{display:none}
+.filter-bar .fb-item{background:#fff;padding:3px 8px;border-radius:99px;border:1px solid #a5f3fc;color:var(--brand-2)}
+.filter-bar .fb-clear{margin-inline-start:auto;color:var(--danger);cursor:pointer;font-weight:800;padding:3px 8px}
+.area-load-list{display:flex;flex-direction:column;gap:8px;margin-top:12px;max-height:340px;overflow-y:auto;padding-left:2px}
+.area-load-item{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;background:#f8fafc;border:1.5px solid var(--border);border-radius:12px;padding:10px 12px;cursor:pointer}
+.area-load-item:active{transform:scale(.99)}
+.area-load-item.loaded{background:#f0fdf4;border-color:#bbf7d0;opacity:.75}
+.area-load-item.partial{background:#fffbeb;border-color:#fde68a}
+.area-load-item .info{display:flex;align-items:center;gap:8px;min-width:0}
+.area-load-item .info .ic{font-size:20px;flex:none}
+.area-load-item .info .txt{min-width:0}
+.area-load-item .info .name{font-weight:800;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.area-load-item .info .meta{font-size:10.5px;color:var(--muted);font-weight:600;margin-top:1px}
+.area-load-item .stat{font-size:11px;font-weight:800;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.area-load-item .stat.all{background:#dcfce7;color:#166534}
+.area-load-item .stat.some{background:#fef3c7;color:#b45309}
+.area-load-item .stat.none{background:#e2e8f0;color:#475569}
+.area-load-item .btn{width:36px;height:36px;border-radius:10px;background:var(--brand);color:#fff;font-size:16px;font-weight:800;display:grid;place-items:center;flex:none}
+.area-load-item .btn.busy{background:#f59e0b}
+.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;max-height:40vh;overflow-y:auto}
+.list .empty{color:var(--muted);font-size:13px;text-align:center;padding:24px 12px;line-height:1.8}
+.list .empty .em{font-size:34px;display:block;margin-bottom:8px;opacity:.5}
+.list .empty .empty-hint{color:#94a3b8;font-size:11px;display:block;margin-top:6px}
+.list .empty .clear-filters-btn{margin-top:12px;background:var(--brand);color:#fff;padding:8px 16px;border-radius:10px;font-weight:700;font-size:12.5px}
+.item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:13px;background:#f8fafc;border:1.5px solid var(--border)}
+.item:active{border-color:#a5f3fc;background:#fff}
+.idx{width:30px;height:30px;flex:none;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:800}
+.idx.start{background:var(--ok);font-size:15px}.idx.pharm{background:#7c3aed;font-size:14px}.idx.off{background:#94a3b8}
+.meta{flex:1;min-width:0}.nm{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ad{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.acts{display:flex;gap:4px;flex:none;flex-wrap:wrap}
+.mini{width:30px;height:30px;border-radius:10px;background:#e2e8f0;color:var(--ink);font-size:13px;display:grid;place-items:center;font-weight:700}
+.mini.delivery{background:#dbeafe;color:#1e40af}.mini.toggle-on{background:#dcfce7;color:#166534}.mini.toggle-off{background:#e2e8f0;color:#64748b}
+.item.delivered{background:#f0fdf4;border-color:#bbf7d0;opacity:.78}
+.item.rejected{background:#fef2f2;border-color:#fecaca;opacity:.78}
+.item.excluded{opacity:.55;background:#f1f5f9}
+.status-btn{width:26px;height:26px;border-radius:50%;font-size:12px;display:grid;place-items:center;font-weight:800}
+.status-btn.pending{background:#fef3c7;color:#b45309}.status-btn.done{background:#dcfce7;color:#16a34a}.status-btn.reject{background:#fee2e2;color:#dc2626}
+.area-header{padding:8px 12px;background:#ecfeff;border-radius:10px;font-size:12px;font-weight:800;color:var(--brand-2);display:flex;justify-content:space-between;margin-top:6px;border:1px solid #a5f3fc}
+.area-header .cnt{background:#fff;padding:1px 8px;border-radius:99px;font-size:11px;color:var(--brand)}
+.switch{display:flex;align-items:center;gap:10px;font-size:13.5px;cursor:pointer;margin-top:12px;font-weight:600;padding:8px 0}
+.switch input{width:42px;height:24px;appearance:none;background:#cbd5e1;border-radius:99px;position:relative;flex:none}
+.switch input:checked{background:var(--ok)}
+.switch input::after{content:'';position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}
+.switch input:checked::after{right:21px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.stat{background:#ecfeff;border-radius:12px;padding:11px 6px;text-align:center;border:1px solid #a5f3fc}
+.stat span{display:block;font-size:20px;font-weight:800;color:var(--brand-2)}
+.stat small{font-size:10.5px;color:var(--muted);font-weight:700;display:block;margin-top:2px}
+.stat.warn{background:#fef3c7;border-color:#fcd34d}.stat.warn span{color:#b45309}
+.stat.purple{background:#f3e8ff;border-color:#d8b4fe}.stat.purple span{color:#7c3aed}
+.add-form{padding-top:8px;border-top:1px solid var(--border);margin-top:10px}
+.lbl{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.delivery-progress{margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.dp-bar{height:8px;background:#e2e8f0;border-radius:99px;overflow:hidden}
+.dp-fill{height:100%;background:linear-gradient(90deg,#16a34a,#22c55e);width:0;transition:width .4s;border-radius:99px}
+.dp-labels{display:flex;justify-content:space-between;margin-top:8px;font-size:11.5px;font-weight:700;color:var(--muted)}
+.pin{width:32px;height:32px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;border:3px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.35);font-family:'Cairo',sans-serif}
+.pin.start{background:var(--ok);font-size:16px}
+.pin.pharm{background:#7c3aed;font-size:14px}
+.pin.done{background:#94a3b8;opacity:.7}
+.leaflet-popup-content{font-family:'Cairo',sans-serif;font-size:13px;margin:10px 12px;min-width:180px}
+.leaflet-popup-content b{font-size:14px;font-weight:800}
+.leaflet-popup-content .pp{color:#64748b;font-size:12px;display:block;margin-top:3px}
+.floating-actions{position:fixed;bottom:calc(16px + var(--sb));left:16px;z-index:850;display:flex;flex-direction:column;gap:10px}
+.fa-btn{width:52px;height:52px;border-radius:50%;background:#fff;color:var(--brand);font-size:22px;display:grid;place-items:center;box-shadow:0 4px 16px rgba(15,23,42,.2);border:1.5px solid var(--border);position:relative}
+.fa-btn:active{transform:scale(.9);background:var(--brand);color:#fff}
+.busy{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;place-items:center;z-index:9999;padding:20px}
+.busy.show{display:grid}
+.busy .box{background:#fff;border-radius:18px;padding:24px 32px;text-align:center;box-shadow:var(--sh-lg);max-width:340px}
+.spinner{width:40px;height:40px;border:4px solid var(--brand-lt);border-top-color:var(--brand);border-radius:50%;margin:0 auto 14px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.busy p{margin:0;font-size:14px;font-weight:700;color:var(--ink)}
+.toast{position:fixed;bottom:calc(24px + var(--sb));left:50%;transform:translate(-50%,30px);background:#0f172a;color:#fff;padding:14px 22px;border-radius:14px;font-size:13.5px;font-weight:700;opacity:0;pointer-events:none;transition:.3s;z-index:10000;max-width:90vw;text-align:center;box-shadow:var(--sh-lg);display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap}
+.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.dm-modal,.srv-panel{position:fixed;inset:0;background:rgba(15,23,42,.75);z-index:10002;display:none;place-items:center;padding:14px;overflow-y:auto}
+.dm-modal.show,.srv-panel.show{display:grid}
+.dm-box,.srv-box{background:#fff;border-radius:20px;width:100%;max-width:640px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden}
+.dm-head,.srv-head{background:linear-gradient(135deg,#0e7490,#0891b2);color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;flex:none}
+.dm-head b,.srv-head b{font-size:15px;font-weight:800}
+.dm-head .close,.srv-head .close{color:#fff;font-size:20px;padding:4px 10px}
+.dm-body,.srv-body{overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:16px;flex:1}
+.dm-section{border:1.5px solid var(--border);border-radius:14px;padding:12px;background:#f8fafc}
+.dm-sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.dm-sec-head h3{margin:0;font-size:13.5px;font-weight:800;color:var(--brand-2)}
+.dm-items-add{display:grid;grid-template-columns:1fr;gap:6px;margin-bottom:10px}
+.dm-items-add input{width:100%;padding:9px 10px;border:1.5px solid var(--border);border-radius:9px;font-size:13px;background:#fff;color:var(--ink)}
+.dm-items-add .cold-lbl{display:flex;align-items:center;gap:3px;font-size:11px;font-weight:700}
+.dm-items-add .add-btn{width:100%;height:38px;border-radius:10px;background:var(--brand);color:#fff;font-size:15px;font-weight:800}
+#dmItemsList{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.dm-item-row{display:grid;grid-template-columns:1fr auto;gap:8px;background:#fff;padding:9px 11px;border-radius:10px;border:1px solid var(--border);font-size:12.5px}
+.dm-item-row .info b{font-weight:800}
+.dm-item-row .info .sub{color:var(--muted);font-size:11px;margin-top:2px;display:flex;gap:10px;flex-wrap:wrap}
+.dm-item-row .del{width:26px;height:26px;border-radius:8px;background:#fee2e2;color:#dc2626;font-size:13px;font-weight:800}
+.dm-empty{text-align:center;color:var(--muted);font-size:12px;padding:14px;font-style:italic}
+.sig-wrap{background:#fff;border-radius:10px;padding:6px;border:1.5px dashed #cbd5e1}
+#dmSigCanvas{width:100%;height:150px;display:block;background:#fff;border-radius:6px;touch-action:none;cursor:crosshair}
+.dm-sig-meta{margin-top:8px}
+.dm-sig-meta input{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:13px;background:#fff;color:var(--ink)}
+.dm-foot,.srv-foot{padding:12px 16px;background:#f8fafc;border-top:1px solid var(--border);display:flex;gap:8px;flex:none;flex-wrap:wrap}
+.dm-foot .primary{flex:2}.dm-foot .ghost,.srv-foot .ghost{flex:1}
+.dm-progress{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--muted);font-weight:700;margin-top:8px}
+.dm-progress .bar{flex:1;height:6px;background:#e2e8f0;border-radius:99px;overflow:hidden}
+.dm-progress .fill{height:100%;background:linear-gradient(90deg,#0e7490,#0891b2);width:0;transition:width .3s;border-radius:99px}
+.save-indicator{position:fixed;top:calc(12px + var(--st));left:12px;background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:99px;padding:6px 12px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px;z-index:900;box-shadow:0 2px 8px rgba(15,23,42,.12);transition:.25s;opacity:0;transform:translateY(-10px);pointer-events:none;color:var(--ink)}
+.save-indicator.show{opacity:1;transform:translateY(0)}
+.save-indicator .si-dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.save-indicator.saving .si-dot{background:var(--warn)}
+.save-indicator.error .si-dot{background:var(--danger)}
+.srv-mode{display:flex;gap:8px;background:#f1f5f9;border-radius:12px;padding:5px;font-weight:700;font-size:12.5px}
+.srv-mode button{flex:1;padding:9px;border-radius:9px}
+.srv-mode button.on{background:var(--brand);color:#fff}
+.srv-group{background:#f8fafc;border:1.5px solid var(--border);border-radius:14px;padding:12px}
+.srv-group h3{margin:0 0 10px;font-size:13px;color:var(--brand-2);font-weight:800;display:flex;justify-content:space-between}
+.srv-group h3 .g-badge{background:#e0f7fa;color:var(--brand);padding:2px 8px;border-radius:99px;font-size:10.5px;font-weight:800}
+.srv-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:#fff;border-radius:10px;border:1px solid var(--border);margin-bottom:6px;font-size:12.5px}
+.srv-item:last-child{margin-bottom:0}
+.srv-item .dot{width:8px;height:8px;border-radius:50%;background:#16a34a;flex:none}
+.srv-item .name{flex:1;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.srv-item .name small{display:block;color:var(--muted);font-size:10.5px;font-weight:500;margin-top:1px}
+.srv-item .tog{width:40px;height:22px;appearance:none;background:#cbd5e1;border-radius:99px;position:relative;flex:none;border:none}
+.srv-item .tog:checked{background:var(--ok)}
+.srv-item .tog::after{content:'';position:absolute;top:3px;right:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s}
+.srv-item .tog:checked::after{right:21px}
+.srv-hint{font-size:11px;color:var(--muted);line-height:1.7;text-align:center;padding:0 12px 8px}
+@media (min-width:901px){
+.app{display:grid;grid-template-columns:420px 1fr;height:100vh}
+.sidebar{overflow-y:auto;padding:14px;padding-top:calc(14px + var(--st))}
+.map-wrap{position:relative;height:auto}
+#map{position:absolute;inset:0}
+.floating-actions{right:20px;left:auto}
+.dm-items-add{grid-template-columns:1.6fr 1fr .7fr 1fr auto auto}
+}
+#netBanner{position:fixed;top:0;left:0;right:0;z-index:99999;padding:calc(6px + env(safe-area-inset-top,0px)) 10px 6px;text-align:center;font-size:12.5px;font-weight:700;color:#fff}#netBanner.ok{display:none}#netBanner.off{background:#dc2626}#netBanner.part{background:#d97706}mark{background:#fde68a;color:inherit;border-radius:3px}#dmSigCanvas{touch-action:none}.osmb{font-size:10px;background:#dcfce7;color:#166534;border-radius:6px;padding:1px 6px;font-weight:700}
+#toast.show{pointer-events:auto;display:flex;gap:10px;align-items:center}.toast-btn{color:#fff;font-weight:700;padding:4px 10px;border-radius:8px;background:rgba(255,255,255,.2);min-height:32px}#selfTestOut{font-size:12px;line-height:1.9;margin:8px 0;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<header class="brand">
+<div class="logo">💊</div>
+<div>
+<h1>مُوزِّع المقطم <span class="ver">M2.5</span></h1>
+<p>توزيع الأدوية على صيدليات المقطم</p>
+<div class="credit">د. محمد أبو حرب — Remedy Overseas</div>
+</div>
+</header>
+
+<section class="panel">
+<div class="panel-head"><h2>📚 تحميل القائمة <span class="badge" id="seedTotalCount">0</span></h2></div>
+<p style="font-size:12px;color:var(--muted);margin:0 0 10px;line-height:1.8">اختر المنطقة لتحميل صيدلياتها فقط، أو حمّل الكل مرة واحدة.</p>
+<div class="row btns">
+<button id="loadBuiltinBtn" class="primary" style="flex:2">📥 تحميل الكل</button>
+<button id="clearAreasBtn" class="ghost" style="flex:1">🗑️ مسح</button>
+</div>
+<div class="area-load-list" id="areaLoadList"></div>
+<div class="row btns" style="margin-top:12px">
+<button id="fixCoordsBtn" class="ghost">🛠️ إصلاح الإحداثيات</button>
+<button id="fixCoordsCancelBtn" class="ghost" style="display:none">⏹️ إيقاف</button>
+</div>
+<div id="fixProgress" class="hint" style="display:none;font-size:12px;color:var(--muted);margin-top:8px;line-height:1.8"></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h2>🔍 مسح OSM</h2></div>
+<p style="font-size:11px;color:var(--muted);margin:0 0 8px;line-height:1.7">يستخدم 8 خوادم بديلة. قد يستغرق 10-40 ثانية.</p>
+<button id="scanBtn" class="primary big">📡 بدء المسح</button>
+<div id="scanProg" style="display:none;margin-top:8px"><div class="dp-bar"><div class="dp-fill" id="scanFill"></div></div><div id="scanProgTxt" style="font-size:12px;color:var(--muted);text-align:center;margin-top:4px"></div></div>
+<button id="scanCancelBtn" class="ghost" style="display:none;margin-top:6px;width:100%">⏹️ إيقاف المسح</button>
+<label style="display:flex;gap:6px;align-items:center;font-size:12px;color:var(--muted);margin-top:8px"><input type="checkbox" id="scanFresh"> تجاهل الذاكرة المؤقتة</label>
+<div class="area-filter" id="areaFilter">
+<span class="area-chip on" data-area="abageya">الأباجية</span>
+<span class="area-chip on" data-area="mokattam_7">المقطم السابع</span>
+<span class="area-chip on" data-area="east">المقطم الشرقي</span>
+<span class="area-chip on" data-area="west">المقطم الغربي</span>
+<span class="area-chip on" data-area="south">المقطم القبلي</span>
+<span class="area-chip on" data-area="upper">الهضبة العليا</span>
+<span class="area-chip on" data-area="middle">الهضبة الوسطى</span>
+<span class="area-chip on" data-area="street9">شارع 9</span>
+<span class="area-chip on" data-area="general">غير محدد</span>
+</div>
+<div id="scanInfo" style="font-size:12px;color:var(--muted);margin-top:8px;text-align:center;line-height:1.7"></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h2>🏭 نقطة الانطلاق</h2></div>
+<div class="row field"><input type="text" id="depotName" placeholder="اسم المستودع" value="المستودع الرئيسي"><span class="ic">🏭</span></div>
+<div class="row field"><input type="text" id="depotAddr" placeholder="الإحداثيات" value="30.0122, 31.3002"><span class="ic">📍</span></div>
+<div class="row btns">
+<button id="setDepotBtn" class="primary">تعيين</button>
+<button id="pickDepotBtn" class="ghost">🗺️ من الخريطة</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h2>➕ إضافة عنوان</h2><button id="toggleAddForm" class="link">فتح</button></div>
+<div id="addForm" class="add-form" style="display:none">
+<div class="row"><label class="lbl">النوع</label><div class="type-chips" id="typeChips">
+<button class="type-chip on" data-type="pharmacy">💊 صيدلية</button>
+<button class="type-chip" data-type="customer">🏪 عميل</button>
+<button class="type-chip" data-type="hospital">🏥 مستشفى</button>
+<button class="type-chip" data-type="warehouse">🏭 مخزن</button>
+<button class="type-chip" data-type="other">📌 أخرى</button>
+</div></div>
+<div class="row field"><input type="text" id="addName" placeholder="الاسم *"><span class="ic">🏷️</span></div>
+<div class="row field"><input type="text" id="addAddress" placeholder="العنوان أو الإحداثيات"><span class="ic">📍</span></div>
+<div class="row field"><input type="text" id="addPhone" placeholder="الهاتف"><span class="ic">📞</span></div>
+<div class="row field"><select id="addArea"><option value="">-- اختر المنطقة --</option></select></div>
+<div class="row field"><textarea id="addNotes" placeholder="ملاحظات" rows="2"></textarea></div>
+<div class="row btns"><button id="addSaveBtn" class="primary">💾 حفظ</button></div>
+<div class="row btns">
+<button id="addPickBtn" class="ghost">📍 من الخريطة</button>
+<button id="addCancelBtn" class="ghost">✕ إلغاء</button>
+</div>
+<div id="addHint" class="hint"></div>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h2>🔍 بحث وتصفية</h2></div>
+<div class="row field"><input type="text" id="searchBox" placeholder="ابحث بالاسم أو العنوان أو الهاتف..."><span class="ic">🔍</span></div>
+<div class="row btns">
+<select id="filterType" class="mini-select">
+<option value="">كل الأنواع</option>
+<option value="pharmacy">💊 صيدليات</option>
+<option value="customer">🏪 عملاء</option>
+<option value="hospital">🏥 مستشفيات</option>
+<option value="warehouse">🏭 مخازن</option>
+<option value="other">📌 أخرى</option>
+</select>
+<select id="filterArea" class="mini-select"><option value="">كل المناطق</option></select>
+</div>
+<div class="row btns" style="margin-top:8px">
+<select id="sortBy" class="mini-select">
+<option value="area">📂 بالمنطقة</option>
+<option value="name">🔤 بالاسم</option>
+<option value="route">🛣️ بالمسار</option>
+</select>
+</div>
+<div id="filterBar" class="filter-bar"></div>
+<div class="delivery-progress">
+<div class="dp-bar"><div class="dp-fill" id="progressFill"></div></div>
+<div class="dp-labels">
+<span>✅ <b id="doneCount">0</b></span>
+<span>⏳ <b id="pendingCount">0</b></span>
+<span>❌ <b id="rejectCount">0</b></span>
+</div>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h2>💊 الصيدليات <span class="badge" id="count">0</span></h2><button id="clearBtn" class="link danger">حذف الكل</button></div>
+<ul class="list" id="list"></ul>
+</section>
+
+<section class="panel">
+<button id="optimizeBtn" class="primary big">🔄 تحسين المسار</button>
+<label class="switch"><input type="checkbox" id="roadChk" checked><span>الطرق الفعلية (OSRM)</span></label>
+<label class="switch"><input type="checkbox" id="trafficChk" checked><span>مراعاة الزحام 🚦</span></label>
+<div class="stats" id="stats"></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h2>📄 التقرير</h2></div>
+<div class="row btns">
+<button id="reportBtn" class="primary">📄 عرض</button>
+<button id="reportXlsxBtn" class="ghost">📊 Excel</button>
+</div>
+<div class="row btns">
+<button id="reportCsvBtn" class="ghost">📋 CSV</button>
+<button id="reportWhatsBtn" class="ghost">📤 واتساب</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h2>💾 تصدير / نسخ</h2></div>
+<div class="btns">
+<button id="gpxBtn" class="ghost">📁 GPX</button>
+<button id="csvBtn" class="ghost">📊 CSV</button>
+<button id="shareBtn" class="ghost">📤 مشاركة</button>
+</div>
+<div class="btns" style="margin-top:8px">
+<button id="backupBtn" class="ghost">💾 نسخة احتياطية</button>
+<button id="restoreBtn" class="ghost">📥 استعادة</button>
+</div>
+<button id="qualityReportBtn" class="ghost" style="margin-top:8px;width:100%">📊 جودة الإحداثيات</button>
+<button id="resetCoordsBtn" class="ghost" style="margin-top:8px;width:100%;color:#dc2626">🔄 إعادة تعيين الإحداثيات</button>
+<input type="file" id="restoreInput" accept=".json,application/json" hidden>
+</section>
+<div style="height:20px"></div>
+</aside>
+<main class="map-wrap"><div id="map"></div></main>
+</div>
+
+<div id="saveIndicator" class="save-indicator"><span class="si-dot"></span><span class="si-text">محفوظ</span></div>
+<div class="floating-actions">
+<button class="fa-btn" id="faAdd" title="إضافة">➕</button>
+<button class="fa-btn" id="faLoad" title="تحميل">📥</button>
+<button class="fa-btn" id="faOptimize" title="تحسين">🔄</button>
+<button class="fa-btn" id="faServers" title="الخوادم">🌐</button>
+<button class="fa-btn" id="faTheme" title="المظهر">🌓</button>
+</div>
+
+<div class="busy" id="busy"><div class="box"><div class="spinner"></div><p id="busyMsg">جارٍ المعالجة...</p></div></div>
+<div class="toast" id="toast"></div>
+
+<div class="dm-modal" id="dmModal">
+<div class="dm-box">
+<div class="dm-head"><b id="dmTitle">📋 بيانات التسليم</b><button class="close" id="dmClose">✕</button></div>
+<div class="dm-body">
+<div class="dm-progress"><span>اكتمال:</span><div class="bar"><div class="fill" id="dmProgressFill"></div></div><span id="dmProgressTxt">0%</span></div>
+<section class="dm-section">
+<div class="dm-sec-head"><h3>📦 الأصناف</h3><span style="font-size:11.5px;color:var(--muted);font-weight:700" id="dmItemsCount">0 صنف</span></div>
+<div class="dm-items-add">
+<input type="text" id="itemName" placeholder="اسم الصنف *" autocomplete="off">
+<input type="text" id="itemBatch" placeholder="الدفعة">
+<input type="number" id="itemQty" placeholder="كمية" min="1" value="1">
+<input type="month" id="itemExpiry">
+<label class="cold-lbl"><input type="checkbox" id="itemCold"> ❄️ تبريد</label>
+<button class="add-btn" id="itemAddBtn">➕ إضافة الصنف</button>
+</div>
+<ul id="dmItemsList"><li class="dm-empty">لا توجد أصناف بعد</li></ul>
+</section>
+<section class="dm-section">
+<div class="dm-sec-head"><h3>✍️ التوقيع</h3><button class="link" id="dmSigClear">مسح</button></div>
+<div class="sig-wrap"><canvas id="dmSigCanvas"></canvas></div>
+<div class="dm-sig-meta"><input type="text" id="dmSignedBy" placeholder="اسم المستلم"></div>
+</section>
+<section class="dm-section">
+<div class="dm-sec-head"><h3>📝 ملاحظات</h3></div>
+<textarea id="dmNotes" rows="2" placeholder="ملاحظات..."></textarea>
+</section>
+</div>
+<div class="dm-foot">
+<button class="ghost" id="dmDelete">🗑️ حذف</button>
+<button class="primary" id="dmSave">💾 حفظ</button>
+<button class="ghost" id="dmPdf">🖨️ إذن</button>
+</div>
+</div>
+</div>
+
+<div class="srv-panel" id="srvPanel">
+<div class="srv-box">
+<div class="srv-head">
+<b>🌐 إدارة الخوادم</b>
+<button class="close" id="srvClose">✕</button>
+</div>
+<div class="srv-body">
+<div class="srv-hint">تحكم كامل في خوادم Overpass و OSRM.</div>
+<div id="selfTestOut"></div>
+<div class="srv-mode">
+<button id="srvModeAuto" class="on">🤖 تلقائي</button>
+<button id="srvModeManual">🎯 يدوي</button>
+</div>
+<section class="srv-group">
+<h3>🛰️ Overpass <span class="g-badge">8</span></h3>
+<div id="srvListOv"></div>
+</section>
+<section class="srv-group">
+<h3>🛣️ OSRM <span class="g-badge">2</span></h3>
+<div id="srvListOsrm"></div>
+</section>
+<section class="srv-group">
+<h3>📍 Geocoding</h3>
+<div id="srvListGeo"></div>
+</section>
+</div>
+<div class="srv-foot">
+<button class="ghost" id="srvTestAll">🧪 اختبار الكل</button>
+<button class="ghost" id="srvSelfTest">🩺 فحص ذاتي</button>
+<button class="ghost" id="srvClose2">إغلاق</button>
+</div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script>
+(function(){
+  function fallback(urls, check, cb){
+    if (check()){ cb(); return; }
+    var i = 0;
+    function next(){
+      if (i >= urls.length){ console.warn('⚠️ تعذّر تحميل مكتبة:', urls[0]); cb(); return; }
+      var s = document.createElement('script');
+      s.src = urls[i++];
+      s.onload = function(){ setTimeout(function(){ check() ? cb() : next(); }, 50); };
+      s.onerror = next;
+      document.head.appendChild(s);
+    }
+    next();
+  }
+  fallback(['https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js','https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'],
+    function(){ return typeof L !== 'undefined'; },
+    function(){
+      fallback(['https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js','https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js'],
+        function(){ return typeof L !== 'undefined' && typeof L.markerClusterGroup === 'function'; },
+        function(){
+          fallback(['https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js','https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js'],
+            function(){ return typeof XLSX !== 'undefined'; },
+            function(){ window.__CDN_READY = true; if (window.__startApp) window.__startApp(); }
+          );
+        }
+      );
+    }
+  );
+})();
+</script>
+
+<script>
+'use strict';
+function __start(){ if (window.__started) return; window.__started = true;
+if (typeof L === 'undefined'){
+  document.body.innerHTML = '<div style="display:grid;place-items:center;height:100vh;font-family:sans-serif;padding:20px;text-align:center;background:#fee2e2;color:#991b1b;direction:rtl"><div><div style="font-size:64px;margin-bottom:16px">🗺️</div><h1>تعذّر تحميل مكتبة الخريطة</h1><button onclick="location.reload()" style="background:#0e7490;color:#fff;padding:14px 32px;border:none;border-radius:12px;font-weight:700;font-size:15px;margin-top:16px">🔄 إعادة المحاولة</button></div></div>';
+} else {
+  bootApp();
+}
+}
+if (window.__CDN_READY) __start(); else window.__startApp = __start;
+
+function bootApp(){
+  const $ = s => document.querySelector(s);
+  const $$ = s => document.querySelectorAll(s);
+  const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/\n/g,'<br>');
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const uid = () => crypto.randomUUID ? crypto.randomUUID() : 'id-' + Date.now() + '-' + Math.random().toString(36).slice(2, 11);
+  const normalizeAr = s => String(s ?? '').replace(/[\u064B-\u0652\u0670\u0640]/g,'').replace(/[\u0622\u0623\u0625\u0671]/g,'ا').replace(/[ىی]/g,'ي').replace(/[ةه]/g,'ه').replace(/[\u0624\u0626]/g,'ء').replace(/[\u0660-\u0669]/g, d => String.fromCharCode(d.charCodeAt(0) - 0x0660 + 48)).toLowerCase().replace(/\s+/g,' ').trim();
+
+  const AREAS = {
+    abageya:{name:'الأباجية',bbox:[30.0030,31.2880,30.0160,31.3060]},
+    mokattam_7:{name:'المقطم السابع',bbox:[30.0140,31.3010,30.0220,31.3100]},
+    east:{name:'المقطم الشرقي',bbox:[30.0100,31.2970,30.0210,31.3090]},
+    west:{name:'المقطم الغربي',bbox:[30.0070,31.2940,30.0130,31.3010]},
+    south:{name:'المقطم القبلي',bbox:[30.0090,31.2960,30.0160,31.3040]},
+    upper:{name:'الهضبة العليا',bbox:[30.0130,31.3000,30.0180,31.3070]},
+    middle:{name:'الهضبة الوسطى',bbox:[30.0130,31.3000,30.0180,31.3070]},
+    street9:{name:'شارع 9',bbox:[30.0080,31.2960,30.0190,31.3060]},
+    general:{name:'المقطم (غير محدد)',bbox:[30.0000,31.2800,30.0300,31.3200]}
+  };
+  const AREA_KEYS = Object.keys(AREAS);
+  const AREA_INDEX = Object.fromEntries(AREA_KEYS.map((k,i)=>[k,i]));
+  const CENTERS = { abageya:[30.0095,31.2962],mokattam_7:[30.0178,31.3052],east:[30.0175,31.3058],west:[30.0105,31.2982],south:[30.0122,31.3005],upper:[30.0152,31.3038],middle:[30.0156,31.3042],street9:[30.0128,31.3008],general:[30.0122,31.3002] };
+  const LANDMARKS = { 'مساكن أطلس':[30.0115,31.2995],'مساكن اطلس':[30.0115,31.2995],'عمارات النصر':[30.0118,31.2998],'مساكن النصر':[30.0120,31.3000],'مساكن القاهرة':[30.0125,31.3005],'مساكن الجيزة':[30.0130,31.3010],'مساكن الإسكندرية':[30.0122,31.3002],'مساكن ايجيكو':[30.0128,31.3008],'مساكن اسبيكو':[30.0135,31.3015],'مساكن الدلتا':[30.0145,31.3025],'عمارات الكهرباء':[30.0128,31.3008],'عمارات البترول':[30.0130,31.3010],'ميدان النافورة':[30.0125,31.3005],'حديقة الاندلس':[30.0132,31.3012],'سوق المقطم':[30.0130,31.3010],'الجامعة الحديثة':[30.0150,31.3030],'مستشفى المقطم':[30.0122,31.3002],'اولاد رجب':[30.0145,31.3025],'خير زمان':[30.0140,31.3020],'كازيون':[30.0135,31.3015],'التوحيد والنور':[30.0145,31.3025] };
+  const LANDMARK_KEYS = Object.keys(LANDMARKS).sort((a,b)=>b.length-a.length);
+
+  const RAW = [
+    ['صيدلية أحمد محمد جودة','abageya','شارع 9، المقطم، القاهرة','+20225074152',30.0122,31.3002],
+    ['صيدلية الأباجية','abageya','4 أ شارع الجبانات، الأباجية، المقطم','+20225118649',30.0075,31.2945],
+    ['صيدلية العزبي (الأباجية)','abageya','11571 شارع 9، الأباجية، المقطم','+2019600',30.008,31.295],
+    ['صيدلية الحافظ','abageya','11 القطعة 5165 ش 17، المقطم','+201117680878',30.008,31.295],
+    ['الصيدلية','general','2 عمارات الكهرباء ش 9 - بجوار كوك دوور','+20228440715 / +201001664306',null,null],
+    ['صيدليات اطلس','general','8127 عمارات النصر القديمة ش 9','+20228446949 / +201013985050',null,null],
+    ['صيدليات الاجزاخانة','general','بلوك 5 - المساكن الجاهزة ش 9','+20226659012 / +20226659013',null,null],
+    ['صيدليات النجار','general','المساكن الجاهزة - بلوك 5 ش 9','+201113070961',null,null],
+    ['صيدليات تراست','general','6364 ش الروضة - الحى الخامس','+20227258202 / +201120413711',null,null],
+    ['صيدليات عز الدين','general','القطعة 7964 ش 9 - بجوار مطعم البيك','+20225085712',null,null],
+    ['صيدليات مصر','general','القطعة 400 ش 9 - بجوار بنك كريدى اجريكول',null,null,null],
+    ['صيدلية ابو قورة','general','القطعة 9109 ش 9 - امام محطة بنزين توتال','+20225073610 / +201285799010',null,null],
+    ['صيدلية احمد البلتاجى','general','73 ش 9 - برج الاطباء - بجوار جاد','+20228476671',null,null],
+    ['صيدلية احمد صفوت','general','القطعة 9412 ش كريم بنونة - خير زمان',null,null,null],
+    ['صيدلية ار ام','general','126 عمارات خان الخليلى ش هارون - الحى الرابع',null,null,null],
+    ['صيدلية البكرى','general','9460 ش كريم بنونة - بجوار كازيون','+20228409005',null,null],
+    ['صيدلية التوبة','general','بلوك 145 - ش صبحى حسين - خلف مسجد التوبة',null,null,null],
+    ['صيدلية الخبيرى','general','القطعة 8133 س ش 9','+201023333094 / +201033331281',null,null],
+    ['صيدلية السلام','general','21 ش 9 - بجوار حلوانى مارسيليا',null,null,null],
+    ['صيدلية الشيخ','general','القطعة 8133 - ش 9 - بجوار سوبر ماركت الراية','+20228432383 / +201090986992',null,null],
+    ['صيدلية المصرى','general','ش 9 - داخل المقطم مول',null,null,null],
+    ['صيدلية امبابى','general','بلوك 51 - مساكن النصر',null,null,null],
+    ['صيدلية بلووم','general','ش الاعلاميين - داخل اب تاون كايرو',null,null,null],
+    ['صيدلية حنان','general','104 ش صبحى حسين - مساكن القاهرة - امام شيخ العرب',null,null,null],
+    ['صيدلية د. احمد ابراهيم','general','القطعة 7691 - المنطقة س',null,null,null],
+    ['صيدلية د. احمد الشحات','general','19 أ مساكن اطلس ش 9',null,null,null],
+    ['صيدلية د. احمد بدر الدين','general','القطعة 8852 ش الثورة',null,null,null],
+    ['صيدلية د. احمد عبد الحميد','general','القطعة 8014 - ش 9 - بجوار كوك دوور',null,null,null],
+    ['صيدلية د. اسلام احمد عبد الواحد','general','42 ش طه ياسين - بجوار كافيه ام كلثوم',null,null,null],
+    ['صيدلية د. امنية فؤاد','general','9083 ش الجامعة الحديثة - الحى الثامن',null,null,null],
+    ['صيدلية د. انجى','general','القطعة 6274 ش كلية الصيدلة - الحى الخامس','+20227259133 / +201032570030',null,null],
+    ['صيدلية د. ايمن عبد اللطيف','general','مساكن ايجيكو - بلوك 7 - امتداد ش 9',null,null,null],
+    ['صيدلية د. جمال عبد الناصر','general','القطعة 7449 ش 33 - الحى السادس',null,null,null],
+    ['صيدلية د. خالد حنفى','general','4 عمارات البترول - ش 9','+20226670717 / +20226678998',null,null],
+    ['صيدلية د. خير الدين محمود','general','278 مساكن الجيزة ش صبحى حسين','+20225054200',null,null],
+    ['صيدلية د. رضا','general','القطعة 8899 ش الفرقان',null,null,null],
+    ['صيدلية د. زياد عبد العزيز','general','2 مساكن اسبيكو 700 ش 9','+20225075225',null,null],
+    ['صيدلية د. سهير غريب','general','القطعة 9416 - ش كريم بنونة','+20228410178',null,null],
+    ['صيدلية د. شريف','general','5 ش 11 متفرع من ش 9',null,null,null],
+    ['صيدلية د. شيرين رفعت','general','قطعة 7140 ش 17 - خلف اولاد رجب','+20225056605 / +201114000053',null,null],
+    ['صيدلية د. طارق الجديدة','general','171 مساكن العبد - الشارع التجارى',null,null,null],
+    ['صيدلية د. عايدة العزب','general','6 القطعة 9487 - ش هدى شعراوى','+20228408999 / +20228408666',null,null],
+    ['صيدلية د. عبد الغفار','general','ش 9 - قريب من حديقة الاندلس',null,null,null],
+    ['صيدلية د. عبد الله','general','1 ج مساكن اطلس ش 9',null,null,null],
+    ['صيدلية د. عماد الدين','general','11 ش 41 متفرع من ش 9',null,null,null],
+    ['صيدلية د. كريم سامح','general','مساكن ايجيكو - بلوك 1 ش 9',null,null,null],
+    ['صيدلية د. محمد ابراهيم','general','6501 ش محمد ابو زيد - الحى الخامس',null,null,null],
+    ['صيدلية د. محمد الحسبنى','general','11 ش 17',null,null,null],
+    ['صيدلية د. محمد بدر','general','بلوك 6 - مساكن اطلس - سوق المقطم','+20228426674',null,null],
+    ['صيدلية د. محمد طارق','general','ش 9 - بجوار اولاد رجب',null,null,null],
+    ['صيدلية د. محمد عبد العظيم','general','1 عمارات اسكندرية ش 9','+20225058650',null,null],
+    ['صيدلية د. محمد ود. شيرين','general','58 ش 9 - امام اولاد رجب','+20225076079 / +201025939349',null,null],
+    ['صيدلية د. مناع','general','186 ش صبحى حسين',null,null,null],
+    ['صيدلية د. منى غازى','general','31 ش 9',null,null,null],
+    ['صيدلية د. نهى ابو النصر','general','القطعة 8613','+20228411231',null,null],
+    ['صيدلية د. هبة جمال','general','عمارات النرجس - القطعة 7770 - ش 9','+20225072922 / +201122227464',null,null],
+    ['صيدلية د. وليد','general','ش الاشجار متفرع من ش 9',null,null,null],
+    ['صيدلية زينب الشريف','general','10 ش 21',null,null,null],
+    ['صيدلية شريف','general','ش 11 متفرع من ش 9',null,null,null],
+    ['صيدلية على','general','3 ش الاهرام متفرع من ش 9','+20228452972 / +201275685568',null,null],
+    ['صيدلية قلادة','general','9236 ش عدلى المليجى',null,null,null],
+    ['صيدلية قناوى','general','القطعة 8894 ش 9 - قريب من بنزين توتال',null,null,null],
+    ['صيدلية ماريان','general','4 ش 9 - ميدان النافورة - بجوار فودافون',null,null,null],
+    ['صيدلية محمد على','general','7 عمارات النصر - بلوك 150 ش صبحى حسين',null,null,null],
+    ['صيدلية محمد نبيل','general','32 مساكن الصعيد ش صبحى حسين',null,null,null],
+    ['صيدلية وسام','general','ش معهد الجزيرة متفرع من ش 9',null,null,null],
+    ['صيدلية الهلباوى','mokattam_7','القطعة 9486 ش الشهيد كريم بنونة','+20228408267 / +201277063336',30.0168,31.3052],
+    ['صيدلية شاهبور','mokattam_7','8047 ش الجامعة الحديثة - الحى السابع','+20227296222 / +20227296333',30.017,31.3055],
+    ['صيدلية أحمد فتحي','east','186 مساكن التعاونيات، شارع مينا دانيال',null,30.0172,31.305],
+    ['صيدلية د. شويكار','east','4 ش المقطم - ميدان النافورة','+20225075259 / +20228452797',30.018,31.306],
+    ['صيدلية د. غادة عبد الغنى','east','21 ش 83 - القطعة 7849',null,null,null],
+    ['صيدلية غادة على','east','3482 ش ممدوح قورة - الحى الثانى',null,30.0178,31.3058],
+    ['صيدلية ليلة','east','بالقرب من مسجد الرياض وقسم شرطة المقطم',null,30.0182,31.3062],
+    ['صيدلية مجدي عبد الخالق','east','قطعة 909','+20225076024',30.012,31.3],
+    ['صيدلية مراد مسلم','east','',null,30.0175,31.3055],
+    ['صيدلية أبو عقرب','west','74 مساكن أطلس','+20225041314',30.0105,31.2985],
+    ['صيدلية الصيدلية','west','القطعة 9063، شارع 9','+201001664306 / +20228440715',30.0102,31.2982],
+    ['صيدلية د. أحمد عبد الوهاب','west','مساكن النيل','+20228420388',30.01,31.298],
+    ['صيدلية د. عبد العليم نجاح ابو الفتوح','west','7207 ش 17 متفرع من ش معهد الجزيرة','+20228460078 / +201202654053',30.0098,31.2978],
+    ['صيدليات العزبى','south','98 ش 9، القطعة 6018 - بجوار التوحيد والنور','+20225052201 / +2019600',30.0145,31.3021],
+    ['صيدليات ريهام','south','القطعة 6035 ش 9 - بجوار خير زمان','+20225088590 / +201017070335',30.0128,31.3008],
+    ['صيدليات كريم قنديل','south','7460 ش محمد محمود - خلف مطعم باك باك',null,30.0115,31.2995],
+    ['صيدلية آل قورة','south','شارع معهد الجزيرة، متفرع من شارع 9',null,30.012,31.3],
+    ['صيدلية ابتسام','south','9412 ش كريم بنونة','+20228410100',30.0118,31.2998],
+    ['صيدلية الحسين محمد عبد المحسن','south','مساكن أطلس','+20226677360',30.0111,31.2991],
+    ['صيدلية الشافعي','south','3 مساكن أطلس','+20225078337',30.011,31.299],
+    ['صيدلية الشهاوى','south','القطعة 9090 ش 9','+20228440254 / +201099944466',30.0127,31.3007],
+    ['صيدلية العدوى','south','8117 مساكن النصر القديمة','+20225076015',30.011,31.299],
+    ['صيدلية الفايد','south','القطعة 8108 ش 9 - امام مسجد النصر','+20228446680 / +201202563956',30.0124,31.3004],
+    ['صيدلية امبابي (القطعة 8133)','south','القطعة 8133، شارع 9','+20228432383 / +201090986992',30.0123,31.3003],
+    ['صيدلية جعفرى','south','9116 ش 9',null,30.011,31.299],
+    ['صيدلية د. أحمد شعراوي','south','Rd 9، بجوار Ragab Sons','+20225057121',30.0125,31.3005],
+    ['صيدلية د. رانيا رجاء الدين','south','',null,30.011,31.299],
+    ['صيدلية د. رضوى زيدان','south','48 ش 9 - ميدان النافورة','+20225089967',30.0129,31.3009],
+    ['صيدلية د. ماجد منير','south','5107 ش 9 - بجوار كشرى التحرير','+20229205385',30.013,31.301],
+    ['صيدلية د. ماريان لويس','south','8129 بلوك 56 ش 9 - بجوار دومينوز',null,30.0125,31.3005],
+    ['صيدلية د. محمد جلبط','south','',null,30.011,31.299],
+    ['صيدلية د. محمد عبد الباسط','south','',null,30.011,31.299],
+    ['صيدلية د. مختار','south','القطعة 8840 - ش 9 - امام مستشفى المقطم','+20225082646 / +201090212171',30.0126,31.3006],
+    ['صيدلية د. مصطفى','south','13 Plot 527, Rd 9',null,30.012,31.3],
+    ['صيدلية د. مصطفى عبدالفضيل','south','161 مساكن الإسكندرية، محل رقم 2',null,30.0115,31.2995],
+    ['صيدلية د. منير سالم','south','',null,30.011,31.299],
+    ['صيدلية د. هلال','south','Block 9, Rd 9','+20226675525',30.0125,31.3005],
+    ['صيدلية د. ياسر','south','Block 90, Rd 9','+20225056851',30.012,31.3],
+    ['صيدلية مستشفى المقطم','south','شارع 9، المقطم','+201005790700',30.0121,31.3001],
+    ['صيدلية وليد وأحمد','south','Block 19, Atlas Bldgs','+20225059495',30.011,31.299],
+    ['صيدليات سيف','upper','Street 9, Area 527','+20226677942 / +20226677968',30.0155,31.304],
+    ['صيدليات كير','upper','القطعة 8906، شارع 9','+2019757 / +201116886838',30.015,31.3035],
+    ['صيدلية الأجزخانة (شارع 9)','upper','108 القطعة 9123، شارع 9','+2016343',30.0152,31.3037],
+    ['صيدلية النواوي','upper','9063 عمارات الكهرباء، شارع 9','+2019813 / +201019999325',30.0155,31.304],
+    ['صيدلية حسين','upper','القطعة 7284، شارع 83','+20225042210',30.0148,31.3032],
+    ['صيدلية قناوي (108)','upper','108 القطعة 9123، شارع 9','+20228434673 / +201102333225',30.0152,31.3037],
+    ['صيدليات جبر','middle','الهضبة الوسطى - الحى الثانى - عمارة 3121','+201554864555 / +201227544031',null,null],
+    ['صيدليات د. مروة درويش','middle','المرحلة الثانية - الحى الثالث','+201027123681',30.015,31.3035],
+    ['صيدليات رشدي','middle','6309 شارع الجامعة الحديثة','+2019661 / +20225079994',30.0148,31.3033],
+    ['صيدليات مصر (المركز التجاري)','middle','محل 2، قطعة 132، المركز التجاري','+20227302284 / +201004819110',30.0146,31.303],
+    ['صيدليات هوم','middle','139 ش صلاح الدين','+2016917 / +201127665566',null,null],
+    ['صيدلية الاجزخانة','middle','3126 - الحى الثانى','+201008299699',30.0154,31.3039],
+    ['صيدلية الحازم','middle','2/3 ش مجمع الاديان - الحى الثالث',null,null,null],
+    ['صيدلية جمال الدين','middle','1 ش الجامعة الحديثة تقاطع ش 33','+201005009896 / +201275049988',null,null],
+    ['صيدلية حياة','middle','عمارة المنصور 9083، الحي الثامن','+20227239028 / +201025690504',30.016,31.3045],
+    ['صيدلية د. أحمد مجدى','middle','',null,30.0154,31.3039],
+    ['صيدلية د. شريف احمد فؤاد','middle','القطعة 5440','+20227304377 / +201212344488',30.0158,31.3042],
+    ['صيدلية د. محمد خليل','middle','63 أ مساكن الدلتا ش صبحى حسين','+20228458778 / +20228458430',30.0156,31.3041],
+    ['صيدلية صلاح','middle','72 مساكن اسبيكو','+20226686441',null,null],
+    ['صيدلية عيد','middle','القطعة 9401 ش طارق ابو النور','+20227239151',30.0162,31.3048],
+    ['صيدلية محيى','middle','3616 - الحى الثانى',null,null,null],
+    ['صيدليات هلال','street9','مساكن اطلس أ - بلوك 9 ش 9','+2016297',30.0125,31.3005],
+    ['صيدليات كير (د. محمد نصر الدين)','middle','القطعة 7565 شارع الجامعة الحديثة','+201101438871',null,null],
+    ['صيدليات العزبي (الجامعة الحديثة)','middle','7565 شارع الجامعة الحديثة','+2019600 / +201113619600',null,null],
+    ['صيدليات الفؤاد','general','90 شارع 9','+2019705 / +201007761010',null,null],
+    ['Dr Zakaria Pharmacy','general','شارع صلاح الدين','+201090880810',null,null],
+    ['صيدلية الشريف','general','9 شارع المقطم','+201060473830',null,null],
+    ['صيدلية د. محمد ثابت','street9','قطعة 9089 شارع 9 الرئيسي','+20228441012',null,null],
+    ['صيدلية د. مصطفى هويدى','middle','الشارع التجارى، الهضبة الوسطى','+20228426622',null,null],
+    ['صيدليات الليثى','middle','ش د. حمدى، الحى الخامس',null,null,null],
+    ['صيدلية د. مروان مصطفى','street9','القطعة 8138 ش 9',null,null,null],
+    ['صيدلية بنونة','general','القطعة 7363','+20229205719',null,null],
+    ['صيدلية د. طارق فوزى','general','قطعة 8596 شارع الرضا والنور','+20228410417 / +201200402541',null,null],
+    ['صيدلية امون','general','العنوان غير متوفر','+20228436342',null,null],
+    ['صيدلية د. عبد العزيز','general','136 مساكن القاهرة','+20226688005',null,null],
+    ['صيدلية د. عمرو باشا','upper','القطعة 7122',null,null,null],
+    ['صيدلية العنان','general','قطعة 474 شارع 10',null,null,null],
+    ['صيدلية القاضى','general','6 بلوك 6، مساكن أطلس أ','+20228424843',null,null],
+    ['صيدليات 19011','general','ش 9، ميدان المفارق','+20225057999 / +20225054999',null,null],
+    ['صيدلية الصفا','general','8 أ مساكن مصر العليا',null,null,null],
+    ['صيدلية د. ايمن (مساكن أطلس)','general','بلوك 8، مساكن أطلس أ','+20225057865',null,null],
+    ['صيدلية د. احمد صالح','street9','ش الأشجار متفرع من ش 9',null,null,null],
+    ['صيدلية د. ابراهيم عزت','general','العنوان غير متوفر',null,null,null],
+    ['صيدليات الحياة','general','العنوان غير متوفر',null,null,null],
+    ['صيدليات نورماندى (سابقا)','street9','القطعة 1178 ش 9',null,null,null],
+    ['صيدلية فوده','middle','ش الجامعة الحديثة',null,null,null],
+    ['صيدلية د. شيرين رفعت (فرع اسبيكو)','middle','58 مساكن اسبيكو','+201126331575',null,null]
+  ];
+
+  function nameHash(n){ return [...(n||'')].reduce((h,c)=>((h<<5)-h+c.charCodeAt(0))|0,0); }
+  function smartFallback(name, area, addr){
+    const c0 = CENTERS[area] || CENTERS.general;
+    if (addr){
+      const key = LANDMARK_KEYS.find(k => addr.includes(k));
+      if (key){
+        const h = nameHash(name), co = LANDMARKS[key];
+        return { lat: co[0] + ((h%100)/100-.5)*.0008, lng: co[1] + (((h>>7)%100)/100-.5)*.0008, source:'landmark' };
+      }
+      const m = addr.match(/القطعة\s+(\d{3,5})/);
+      if (m){
+        const seed = parseInt(m[1], 10) * 7919;
+        return { lat: c0[0] + ((seed%1000)/1000-.5)*.004, lng: c0[1] + (((seed>>10)%1000)/1000-.5)*.004, source:'plot' };
+      }
+    }
+    const h = nameHash(name);
+    return { lat: c0[0] + ((h%100)/100-.5)*.0025, lng: c0[1] + (((h>>7)%100)/100-.5)*.0025, source:'area_center' };
+  }
+
+  const SEED = RAW.map(([name, area, addr, phone, lat, lng]) => {
+    let fLat = lat, fLng = lng, src = 'xlsx';
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)){
+      const fb = smartFallback(name, area, addr);
+      fLat = fb.lat; fLng = fb.lng; src = fb.source;
+    }
+    return { name, area, addr: addr||'', phone: phone||'', lat: fLat, lng: fLng, coordSource: src };
+  });
+
+  const state = { depot:null, pharmacies:[], routeGeom:null, pickMode:null, metrics:null, routeOrder:[] };
+  const uiFilters = { search:'', type:'', area:'', sort:'area' };
+  const addFormState = { type:'pharmacy', coords:null, pickMode:false };
+
+  const map = L.map('map', { zoomControl:false, preferCanvas:true }).setView([30.0122,31.3002], 14);
+  L.control.zoom({ position:'bottomleft' }).addTo(map);
+  const baseOSM = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:20, maxNativeZoom:19, subdomains:'abc', attribution:'© OpenStreetMap' });
+  const baseVoyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { maxZoom:20, subdomains:'abcd', attribution:'© OSM © CARTO' });
+  baseOSM.addTo(map);
+  L.control.layers({ '🗺️ شوارع': baseOSM, '🧭 Voyager': baseVoyager }, {}, { position:'topright', collapsed:true }).addTo(map);
+  map.setMaxBounds(L.latLngBounds([29.85, 31.12], [30.18, 31.48]));
+  map.setMinZoom(11);
+  setTimeout(()=>map.invalidateSize(), 300);
+  window.addEventListener('resize', ()=>map.invalidateSize());
+  window.addEventListener('orientationchange', ()=>setTimeout(()=>map.invalidateSize(), 300));
+
+  const depotLayer = L.layerGroup().addTo(map);
+  const pharmacyLayer = typeof L.markerClusterGroup === 'function'
+    ? L.markerClusterGroup({ maxClusterRadius:60, disableClusteringAtZoom:17, spiderfyOnMaxZoom:true })
+    : L.layerGroup();
+  map.addLayer(pharmacyLayer);
+  let routeLayer = null;
+
+  function depotIcon(){ return L.divIcon({ className:'', html:'<div class="pin start">🏭</div>', iconSize:[36,36], iconAnchor:[18,18] }); }
+  function findArea(lat, lng){ for(const[k,a]of Object.entries(AREAS)){ const[s,w,n,e]=a.bbox; if(lat>=s&&lat<=n&&lng>=w&&lng<=e)return k; } return null; }
+
+  const R_EARTH = 6371;
+  function haversine(a,b){ const dLat=(b.lat-a.lat)*Math.PI/180, dLng=(b.lng-a.lng)*Math.PI/180; const la1=a.lat*Math.PI/180, la2=b.lat*Math.PI/180; const h=Math.sin(dLat/2)**2+Math.cos(la1)*Math.cos(la2)*Math.sin(dLng/2)**2; return 2*R_EARTH*Math.asin(Math.sqrt(h)); }
+  function lev(a,b){ const m=a.length,n=b.length; if(!m||!n)return Math.max(m,n); let p=Array.from({length:n+1},(_,j)=>j); for(let i=1;i<=m;i++){ const c=[i]; for(let j=1;j<=n;j++) c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1)); p=c; } return p[n]; }
+  const EST_SRC = ['landmark','plot','area_center'];
+  function isSamePharmacy(a,b){ const na=normalizeAr(a?.name||''), nb=normalizeAr(b?.name||''); if(!na||!nb)return false; const m=haversine(a,b)*1000; const sim=1-lev(na,nb)/Math.max(na.length,nb.length); if(na===nb&&m<150)return true; if(na===nb&&(EST_SRC.includes(a.coordSource)||EST_SRC.includes(b.coordSource)))return true; if(m<=30&&sim>=.6)return true; return sim>=.85&&m<150; }
+  function straightMatrix(pts){ const n=pts.length, m=Array.from({length:n},()=>new Array(n).fill(0)); for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){ const d=haversine(pts[i],pts[j])*1.35; m[i][j]=m[j][i]=d; } return m; }
+  function nearest(m,start){ const n=m.length, v=new Array(n).fill(false), t=[start]; v[start]=true; for(let k=1;k<n;k++){ const last=t[t.length-1]; let best=-1, bd=Infinity; for(let j=0;j<n;j++) if(!v[j]&&m[last][j]<bd){ bd=m[last][j]; best=j; } if(best===-1)break; t.push(best); v[best]=true; } return t; }
+  function twoOpt(m,t){ const n=t.length; let imp=true, g=0; while(imp&&g++<100){ imp=false; for(let i=1;i<n-1;i++){ for(let j=i+1;j<n;j++){ const a=t[i-1],b=t[i],c=t[j],d=(j+1<n)?t[j+1]:null; const before=m[a][b]+(d!==null?m[c][d]:0); const after=m[a][c]+(d!==null?m[b][d]:0); if(after<before-1e-9){ let lo=i,hi=j; while(lo<hi){ [t[lo],t[hi]]=[t[hi],t[lo]]; lo++;hi--; } imp=true; } } } } }
+  function dist(m,t){ let s=0; for(let i=0;i<t.length-1;i++) s+=m[t[i]][t[i+1]]; return s; }
+  function solveTSP(m){ const n=m.length; if(n<=3)return [...Array(n).keys()]; const starts=[0]; while(starts.length<Math.min(4,n)){ const r=Math.floor(Math.random()*n); if(!starts.includes(r))starts.push(r); } let best=null, bd=Infinity; starts.forEach(s=>{ const t=nearest(m,s); twoOpt(m,t); const d=dist(m,t); if(d<bd){ bd=d; best=t.slice(); } }); if(!best)return [...Array(n).keys()]; if(best[0]!==0){ const i=best.indexOf(0); best=best.slice(i).concat(best.slice(0,i)); } return best; }
+
+  function trafficFactor(date=new Date()){ const h=date.getHours()+date.getMinutes()/60, d=date.getDay(); if(d===5){ if(h>=13&&h<20)return 1.20; return 1.05; } if(d===6){ if(h>=8&&h<12)return 1.55; if(h>=16&&h<22)return 1.45; return 1.15; } if(h>=7&&h<10)return 1.85; if(h>=10&&h<14)return 1.35; if(h>=14&&h<16)return 1.50; if(h>=16&&h<21)return 1.95; if(h>=21&&h<24)return 1.25; return 1.10; }
+  function trafficLabel(f){ if(f>=1.85)return{ text:'زحام شديد', color:'#dc2626' }; if(f>=1.45)return{ text:'زحام متوسط', color:'#f59e0b' }; return{ text:'حرية حركة', color:'#16a34a' }; }
+
+  const LS_KEY = 'mawze3.mokattam.v3';
+  let dirtySince = null, autosaveInterval = null, siTimer = null;
+
+  function showSaveIndicator(s='saved'){ const el=$('#saveIndicator'); if(!el)return; el.classList.remove('saving','error'); const txt=el.querySelector('.si-text'); if(s==='saving'){ el.classList.add('saving','show'); txt.textContent='يحفظ...'; clearTimeout(siTimer); return; } if(s==='error'){ el.classList.add('error','show'); txt.textContent='⚠️ فشل'; clearTimeout(siTimer); siTimer=setTimeout(()=>el.classList.remove('show'),5000); return; } txt.textContent='✓ محفوظ'; el.classList.add('show'); clearTimeout(siTimer); siTimer=setTimeout(()=>el.classList.remove('show'),2000); }
+
+  async function _saveCore(){
+    try {
+      const payload = { depot:state.depot, pharmacies:state.pharmacies.map(p=>{ return p; }), routeGeom:state.routeGeom, metrics:state.metrics, routeOrder:state.routeOrder, uiFilters:{...uiFilters} };
+      const json = JSON.stringify(payload);
+      if (json.length < 4.5*1024*1024){ localStorage.setItem(LS_KEY, json); showSaveIndicator('saved'); dirtySince=null; }
+      else { showSaveIndicator('error'); }
+    } catch(e){ console.warn('[save]', e); showSaveIndicator('error'); }
+  }
+  let _saving = false, _savePending = false;
+  async function saveNow(){ if (_saving){ _savePending = true; return; } _saving = true; showSaveIndicator('saving'); try { await _saveCore(); } finally { _saving = false; if (_savePending){ _savePending = false; saveNow(); } } }
+  const saveImmediate = saveNow;
+  function saveDebounced(){ if(!dirtySince)dirtySince=Date.now(); clearTimeout(window.__dbT); window.__dbT = setTimeout(saveNow, 500); }
+
+  function load(){
+    try {
+      const raw = localStorage.getItem(LS_KEY);
+      if (raw){ const d = JSON.parse(raw); applyLoadedState(d); }
+    } catch(e){ console.warn('[load]', e); }
+  }
+  function applyLoadedState(d){
+    if (!d || typeof d !== 'object') return;
+    if (d.depot && Number.isFinite(Number(d.depot.lat))) state.depot = { ...d.depot, lat:+d.depot.lat, lng:+d.depot.lng };
+    if (Array.isArray(d.pharmacies)) state.pharmacies = d.pharmacies.filter(p=>p&&p.id&&p.name&&Number.isFinite(+p.lat)).map(p=>{ if(!p.type)p.type='pharmacy'; if(!p.area)p.area='general'; if(p.selected===undefined)p.selected=true; return { ...p, lat:+p.lat, lng:+p.lng }; });
+    if (Array.isArray(d.routeGeom)) state.routeGeom = d.routeGeom;
+    if (d.metrics) state.metrics = d.metrics;
+    if (Array.isArray(d.routeOrder)) state.routeOrder = d.routeOrder.filter(Boolean).map(String);
+    if (d.uiFilters){ uiFilters.search=d.uiFilters.search||''; uiFilters.type=d.uiFilters.type||''; uiFilters.area=d.uiFilters.area||''; uiFilters.sort=d.uiFilters.sort||'area'; }
+  }
+
+  function startAutoSave(){ if (autosaveInterval) return; autosaveInterval = setInterval(saveNow, 30000); window.addEventListener('beforeunload', _saveCore); document.addEventListener('visibilitychange', () => { if (document.hidden) _saveCore(); }); }
+
+  function setBusy(on, msg){ const el=$('#busy'); if(!el)return; el.classList.toggle('show', on); if(msg) $('#busyMsg').textContent = msg; }
+  let toastTimer = null;
+  function toast(msg, opt){
+    if (!msg) return; const el = $('#toast'); if (!el) return;
+    el.textContent = ''; const sp = document.createElement('span'); sp.textContent = msg; el.appendChild(sp);
+    if (opt && opt.undo){ const u = document.createElement('button'); u.className = 'toast-btn'; u.textContent = '↩ تراجع'; u.onclick = () => { el.classList.remove('show'); opt.undo(); }; el.appendChild(u); }
+    const x = document.createElement('button'); x.className = 'toast-btn'; x.textContent = '✕'; x.onclick = () => el.classList.remove('show'); el.appendChild(x);
+    el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 5000);
+  }
+
+  function fitMokattam(){ map.fitBounds(L.latLngBounds([29.99, 31.27],[30.035, 31.335]), { padding:[30,30] }); }
+  function fitToPharmacies(){ const pts=state.pharmacies.filter(p=>Number.isFinite(p.lat)).map(p=>[p.lat,p.lng]); if(state.depot)pts.push([state.depot.lat,state.depot.lng]); if(!pts.length){ fitMokattam(); return; } map.fitBounds(L.latLngBounds(pts), { padding:[40,40], maxZoom:15 }); }
+  function fitRoute(){ const sel=state.pharmacies.filter(p=>p.selected); if(!state.depot&&!sel.length){ fitMokattam(); return; } const pts=[...(state.depot?[state.depot]:[]), ...sel]; if(pts.length===1){ map.setView([pts[0].lat,pts[0].lng],15); return; } map.fitBounds(L.latLngBounds(pts.map(p=>[p.lat,p.lng])), { padding:[50,50], maxZoom:15 }); }
+  function showStats(km, min, tf){ if(!km){ $('#stats').innerHTML=''; return; } const tl=trafficLabel(tf); const rm=min?min*tf:(km/20)*60*tf; const h=Math.floor(rm/60), m=Math.round(rm%60); const t=h>0?`${h}:${String(m).padStart(2,'0')}`:m; const cnt=state.pharmacies.filter(p=>p.selected).length; $('#stats').innerHTML=`<div class="stat purple"><span>${cnt}</span><small>صيدلية</small></div><div class="stat"><span>${km.toFixed(1)}</span><small>كم</small></div><div class="stat warn"><span style="color:${tl.color}">${t}</span><small>${h>0?'ساعة':'دقيقة'} · ${tl.text}</small></div>`; }
+
+  function populateAreas(){ const a=$('#addArea'), f=$('#filterArea'); const opts=AREA_KEYS.map(k=>`<option value="${k}">${AREAS[k].name}</option>`).join(''); if(a){ const c=a.value; a.innerHTML='<option value="">-- اختر --</option>'+opts; if(c)a.value=c; } if(f){ const c=f.value; f.innerHTML='<option value="">كل المناطق</option>'+opts; if(c)f.value=c; } }
+
+  function hl(t){ t=String(t??''); const q=uiFilters.search; if(!q)return esc(t); const i=t.toLowerCase().indexOf(q.toLowerCase()); if(i<0)return esc(t); return esc(t.slice(0,i))+'<mark>'+esc(t.slice(i,i+q.length))+'</mark>'+esc(t.slice(i+q.length)); }
+  function getFiltered(){
+    let list = state.pharmacies.slice();
+    if (uiFilters.search){ const q=normalizeAr(uiFilters.search); if(q){ list=list.filter(p=>[p.name,p.addr,p.phone].some(f=>f&&normalizeAr(f).includes(q))); } }
+    if (uiFilters.type) list = list.filter(p => (p.type||'pharmacy') === uiFilters.type);
+    if (uiFilters.area) list = list.filter(p => p.area === uiFilters.area);
+    return list;
+  }
+
+  let _idxCache = null, _idxDirty = true;
+  function invalidateIdx(){ _idxDirty = true; _idxCache = null; }
+  function routeIndex(){
+    if (!_idxDirty && _idxCache) return _idxCache;
+    const m = new Map(); let i = 1;
+    const byId = new Map(state.pharmacies.map(p=>[p.id, p]));
+    state.routeOrder.forEach(id => { const p = byId.get(id); if (p && p.selected && !m.has(p.id)) m.set(p.id, i++); });
+    state.pharmacies.forEach(p => { if (p.selected && !m.has(p.id)) m.set(p.id, i++); });
+    _idxCache = m; _idxDirty = false;
+    return m;
+  }
+
+  function countByArea(){ const c={}; AREA_KEYS.forEach(k=>c[k]=0); SEED.forEach(s=>{ if(c[s.area]!==undefined)c[s.area]++; }); return c; }
+  function loadedCountByArea(){ const c={}; AREA_KEYS.forEach(k=>c[k]=0); state.pharmacies.forEach(p=>{ if(c[p.area]!==undefined)c[p.area]++; }); return c; }
+
+  async function loadArea(areaKey){
+    const seedInArea = SEED.filter(s => s.area === areaKey);
+    if (!seedInArea.length){ toast(`⚠️ لا توجد صيدليات في ${AREAS[areaKey]?.name||areaKey}`); return; }
+    const item = document.querySelector(`.area-load-item[data-area="${areaKey}"]`);
+    const btn = item?.querySelector('.btn');
+    if (btn){ btn.classList.add('busy'); btn.textContent = '⏳'; }
+    try {
+      let added = 0, skipped = 0;
+      seedInArea.forEach(s => {
+        const np = { id:uid(), name:s.name, addr:s.addr, phone:s.phone||'', lat:s.lat, lng:s.lng, area:s.area, areaName:AREAS[s.area]?.name||'', selected:true, status:'pending', type:'pharmacy', coordSource:s.coordSource };
+        if (state.pharmacies.some(ex => isSamePharmacy(ex, np))){ skipped++; return; }
+        state.pharmacies.push(np);
+        if (np.selected) state.routeOrder.push(np.id);
+        added++;
+      });
+      invalidateIdx();
+      await render(); await saveImmediate();
+      fitMokattam();
+      const areaName = AREAS[areaKey]?.name || areaKey;
+      if (added === 0){ toast(`✅ كل صيدليات ${areaName} موجودة (${skipped})`); }
+      else { toast(`✅ +${added} صيدلية من ${areaName}`); }
+    } catch(e){ toast('❌ ' + e.message); }
+    finally { if (btn){ btn.classList.remove('busy'); } renderAreaLoadList(); }
+  }
+
+  async function loadBuiltin(){
+    setBusy(true, 'جارٍ تحميل كل الصيدليات...');
+    try {
+      const all = SEED.map(s => ({ id:uid(), name:s.name, addr:s.addr, phone:s.phone||'', lat:s.lat, lng:s.lng, area:s.area, areaName:AREAS[s.area]?.name||'', selected:true, status:'pending', type:'pharmacy', coordSource:s.coordSource }));
+      let added = 0, skipped = 0;
+      all.forEach(p => {
+        if (state.pharmacies.some(ex => isSamePharmacy(ex, p))){ skipped++; return; }
+        state.pharmacies.push(p);
+        if (p.selected) state.routeOrder.push(p.id);
+        added++;
+      });
+      if (!added){ toast(`✅ كل الصيدليات موجودة (${skipped})`); return; }
+      invalidateIdx();
+      await render(); await saveImmediate();
+      fitMokattam();
+      toast(`✅ أُضيفت ${added} صيدلية`);
+      renderAreaLoadList();
+    } catch(e){ toast('❌ ' + e.message); }
+    finally { setBusy(false); }
+  }
+
+  async function clearAllAreas(){
+    if (!state.pharmacies.length){ toast('لا توجد صيدليات'); return; }
+    if (!confirm(`حذف ${state.pharmacies.length} صيدلية؟`)) return;
+    state.pharmacies = []; state.routeOrder = []; state.routeGeom = null; state.metrics = null;
+    invalidateIdx();
+    await render(); await saveImmediate();
+    renderAreaLoadList();
+    toast('🗑️ تم حذف الكل');
+  }
+
+  function renderAreaLoadList(){
+    const container = $('#areaLoadList');
+    if (!container) return;
+    const total = countByArea();
+    const loaded = loadedCountByArea();
+    container.innerHTML = AREA_KEYS.map(k => {
+      const a = AREAS[k];
+      const totalN = total[k] || 0;
+      const loadedN = loaded[k] || 0;
+      const pct = totalN ? Math.round(loadedN / totalN * 100) : 0;
+      let statCls='none', statTxt=`0 / ${totalN}`, itemCls='';
+      if (loadedN >= totalN && totalN > 0){ statCls='all'; statTxt=`✅ ${loadedN} / ${totalN}`; itemCls='loaded'; }
+      else if (loadedN > 0){ statCls='some'; statTxt=`⏳ ${loadedN} / ${totalN}`; itemCls='partial'; }
+      return `<div class="area-load-item ${itemCls}" data-area="${k}">
+        <div class="info"><span class="ic">📍</span><div class="txt"><div class="name">${esc(a.name)}</div><div class="meta">${totalN} صيدلية · ${pct}% محمّلة</div></div></div>
+        <span class="stat ${statCls}">${statTxt}</span>
+        <button class="btn" data-load-area="${k}">${loadedN >= totalN && totalN > 0 ? '✅' : '📥'}</button>
+      </div>`;
+    }).join('');
+    container.querySelectorAll('.area-load-item').forEach(item => {
+      item.addEventListener('click', e => {
+        if (e.target.closest('[data-load-area]')) return;
+        loadArea(item.dataset.area);
+      });
+    });
+    container.querySelectorAll('[data-load-area]').forEach(btn => {
+      btn.addEventListener('click', e => { e.stopPropagation(); loadArea(btn.dataset.loadArea); });
+    });
+  }
+
+  function updateSeedTotalCount(){ const el = $('#seedTotalCount'); if (el) el.textContent = SEED.length; }
+
+  const VS_PAGE = 30; let vsLimit = VS_PAGE, vsSig = '', vsObs = null;
+  let renderLock = false, renderQueued = false;
+  async function render(){
+    if (renderLock){ renderQueued = true; return; }
+    renderLock = true;
+    try { await renderInternal(); }
+    catch(e){ console.error('[render]', e); }
+    finally { renderLock = false; if (renderQueued){ renderQueued = false; queueMicrotask(render); } }
+  }
+
+  function updateFilterBar(){
+    const bar = $('#filterBar'); if (!bar) return;
+    const parts = [];
+    if (uiFilters.type){ const labels={pharmacy:'💊 صيدليات',customer:'🏪 عملاء',hospital:'🏥 مستشفيات',warehouse:'🏭 مخازن',other:'📌 أخرى'}; parts.push(`<span class="fb-item">${labels[uiFilters.type]||uiFilters.type}</span>`); }
+    if (uiFilters.area){ parts.push(`<span class="fb-item">📍 ${AREAS[uiFilters.area]?.name||''}</span>`); }
+    if (uiFilters.search){ parts.push(`<span class="fb-item">🔍 "${esc(uiFilters.search)}"</span>`); }
+    if (parts.length){ bar.innerHTML = parts.join('') + '<span class="fb-clear" id="fbClear">✕ مسح</span>'; const b=bar.querySelector('#fbClear'); if(b) b.onclick = clearAllFilters; }
+    else bar.innerHTML = '';
+  }
+
+  function clearAllFilters(){ uiFilters.type=''; uiFilters.area=''; uiFilters.search=''; const ft=$('#filterType'); if(ft)ft.value=''; const fa=$('#filterArea'); if(fa)fa.value=''; const sb=$('#searchBox'); if(sb)sb.value=''; render(); }
+
+  async function renderInternal(){
+    const list = $('#list'); if (!list) return;
+    list.innerHTML = '';
+    state.pharmacies.forEach(p => { if (!p.type) p.type='pharmacy'; if (!p.area) p.area='general'; if (p.selected===undefined) p.selected=true; });
+    const filtered = getFiltered();
+    const idx = routeIndex();
+    const allSel = state.pharmacies.filter(p=>p.selected);
+    const done = allSel.filter(p=>p.status==='done').length;
+    const rej = allSel.filter(p=>p.status==='rejected').length;
+    const pending = allSel.length - done - rej;
+    const pct = allSel.length ? Math.round(done/allSel.length*100) : 0;
+    $('#progressFill').style.width = pct + '%';
+    $('#doneCount').textContent = done;
+    $('#pendingCount').textContent = pending;
+    $('#rejectCount').textContent = rej;
+    updateFilterBar();
+    if (state.depot && state.pharmacies.length){
+      const li = document.createElement('li'); li.className='item';
+      li.innerHTML = `<div class="idx start">🏭</div><div class="meta"><div class="nm">${esc(state.depot.name)}</div><div class="ad">${state.depot.lat.toFixed(5)}, ${state.depot.lng.toFixed(5)}</div></div>`;
+      list.appendChild(li);
+    }
+    if (!state.pharmacies.length){
+      list.insertAdjacentHTML('beforeend', '<li class="empty"><span class="em">💊</span>لم تُحمّل صيدليات بعد.<br>اختر منطقة من الأعلى أو اضغط "تحميل الكل"</li>');
+      if (routeLayer){ map.removeLayer(routeLayer); routeLayer=null; }
+      $('#count').textContent = 0;
+      updateMap(idx, filtered);
+      return;
+    }
+    if (!filtered.length){
+      list.insertAdjacentHTML('beforeend', '<li class="empty"><span class="em">🔍</span>لا توجد نتائج<span class="empty-hint">جرّب تغيير الفلتر</span><br><button class="clear-filters-btn" id="emptyClearBtn">✕ مسح الفلاتر</button></li>');
+      setTimeout(()=>{ const b=$('#emptyClearBtn'); if(b) b.onclick=clearAllFilters; }, 0);
+      $('#count').textContent = `0/${state.pharmacies.length}`;
+      updateMap(idx, filtered);
+      return;
+    }
+    let rList = filtered.slice();
+    if (uiFilters.sort === 'area') rList.sort((a,b)=>(AREA_INDEX[a.area]??99)-(AREA_INDEX[b.area]??99));
+    else if (uiFilters.sort === 'name') rList.sort((a,b)=>(a.name||'').localeCompare(b.name||'','ar'));
+    else if (uiFilters.sort === 'route') rList.sort((a,b)=>(idx.get(a.id)??9999)-(idx.get(b.id)??9999));
+    let lastArea = '';
+    const sig = JSON.stringify(uiFilters); if (sig !== vsSig){ vsSig = sig; vsLimit = VS_PAGE; }
+    const makeRow = (p, i) => {
+      if (uiFilters.sort === 'area' && p.area !== lastArea){
+        lastArea = p.area;
+        const cnt = filtered.filter(x=>x.area===p.area).length;
+        const h = document.createElement('li'); h.className='area-header';
+        h.innerHTML = `<span>📍 ${esc(p.areaName || AREAS[p.area]?.name || '')}</span><span class="cnt">${cnt}</span>`;
+        list.appendChild(h);
+      }
+      const status = p.status || 'pending';
+      const sIcon = status==='done'?'✅':status==='rejected'?'❌':'⏳';
+      const sCls = status==='done'?'done':status==='rejected'?'reject':'pending';
+      const itemCls = status==='done'?'delivered':status==='rejected'?'rejected':'';
+      const typeIcon = p.type==='customer'?'🏪':p.type==='hospital'?'🏥':p.type==='warehouse'?'🏭':p.type==='other'?'📌':'💊';
+      const idxCls = p.selected ? (p.type==='pharmacy'?'pharm':'') : 'off';
+      const li = document.createElement('li');
+      li.className = `item ${itemCls} ${p.selected?'':'excluded'}`;
+      li.innerHTML = `
+        <div class="idx ${idxCls}">${p.selected ? (idx.get(p.id) ?? (i+1)) : '·'}</div>
+        <div class="meta">
+          <div class="nm">${typeIcon} ${hl(p.name)}${p.source==='osm'?' <span class="osmb">✔ موثّق من OSM</span>':''}</div>
+          <div class="ad">${p.addr ? hl(p.addr) : esc(p.lat.toFixed(5)+', '+p.lng.toFixed(5))}</div>
+          ${p.phone ? `<div class="ad">📞 ${hl(p.phone)}</div>` : ''}
+        </div>
+        <div class="acts">
+          <button class="mini ${p.selected?'toggle-on':'toggle-off'}" data-act="toggle" data-id="${p.id}">${p.selected?'✓':'○'}</button>
+          <button class="status-btn ${sCls}" data-act="status" data-id="${p.id}">${sIcon}</button>
+          <button class="mini delivery" data-act="delivery" data-id="${p.id}">📋</button>
+          <button class="mini" data-act="focus" data-id="${p.id}">🎯</button>
+          <button class="mini" data-act="del" data-id="${p.id}" style="background:#fee2e2;color:#dc2626">✕</button>
+        </div>`;
+      list.appendChild(li);
+    };
+    if (vsObs){ vsObs.disconnect(); vsObs = null; }
+    const sentinel = document.createElement('li'); sentinel.className = 'empty'; sentinel.style.cssText = 'padding:12px;cursor:pointer';
+    let shown = 0;
+    const more = first => {
+      sentinel.remove();
+      const end = Math.min(first ? Math.max(VS_PAGE, vsLimit) : shown + VS_PAGE, rList.length);
+      for (; shown < end; shown++) makeRow(rList[shown], shown);
+      vsLimit = shown;
+      if (shown < rList.length){ sentinel.textContent = `⬇️ عرض ${shown} من ${rList.length} — اسحب للمزيد`; list.appendChild(sentinel); }
+      else if (vsObs){ vsObs.disconnect(); vsObs = null; }
+    };
+    more(true);
+    if (shown < rList.length){
+      sentinel.onclick = () => more(false);
+      if ('IntersectionObserver' in window){
+        vsObs = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting) && shown < rList.length) more(false); }, { root: $('.sidebar'), rootMargin: '400px' });
+        vsObs.observe(sentinel);
+      }
+    }
+    const total = state.pharmacies.length;
+    $('#count').textContent = filtered.length === total ? total : `${filtered.length}/${total}`;
+    updateMap(idx, filtered);
+    drawRoute();
+  }
+
+  function updateMap(idx, filtered){
+    const i = idx || routeIndex();
+    const list = filtered || getFiltered();
+    depotLayer.clearLayers();
+    if (typeof pharmacyLayer.clearLayers === 'function') pharmacyLayer.clearLayers();
+    if (state.depot){
+      L.marker([state.depot.lat, state.depot.lng], { icon: depotIcon() }).bindPopup(`<b>🏭 ${esc(state.depot.name)}</b>`).addTo(depotLayer);
+    }
+    const markers = [];
+    list.forEach(p => {
+      if (!Number.isFinite(p.lat) || !Number.isFinite(p.lng)) return;
+      const status = p.status || 'pending';
+      const num = i.get(p.id);
+      let html;
+      if (p.selected){ const cls = `pin pharm ${status==='done'?'done':''}`; html = `<div class="${cls}">${status==='done'?'✅':(num??'·')}</div>`; }
+      else html = '<div class="pin done">·</div>';
+      const icon = L.divIcon({ className:'', html, iconSize:[32,32], iconAnchor:[16,16] });
+      const m = L.marker([p.lat, p.lng], { icon }).bindPopup(`<b>${esc(p.name)}</b>${p.addr?`<span class="pp">📍 ${esc(p.addr)}</span>`:''}${p.phone?`<span class="pp">📞 ${esc(p.phone)}</span>`:''}<span class="pp">${status==='done'?'✅ تم':status==='rejected'?'❌ مرفوض':'⏳ بانتظار'}</span>`);
+      markers.push(m);
+    });
+    if (typeof pharmacyLayer.addLayers === 'function') pharmacyLayer.addLayers(markers);
+    else markers.forEach(m => m.addTo(pharmacyLayer));
+  }
+
+  function drawRoute(){
+    if (routeLayer){ map.removeLayer(routeLayer); routeLayer = null; }
+    const sel = state.pharmacies.filter(p=>p.selected);
+    if (!state.depot || sel.length < 1) return;
+    const pts = [state.depot, ...sel];
+    const real = Array.isArray(state.routeGeom) && state.routeGeom.length > 1;
+    const latlngs = real ? state.routeGeom : pts.map(p=>[p.lat, p.lng]);
+    routeLayer = L.polyline(latlngs, { color: real?'#0e7490':'#94a3b8', weight: real?5:3, opacity:.92, dashArray: real?null:'8 10' }).addTo(map);
+  }
+
+  $('#list').addEventListener('click', async e => {
+    const btn = e.target.closest('button[data-act]');
+    if (!btn) return;
+    const p = state.pharmacies.find(x => x.id === btn.dataset.id);
+    if (!p) return;
+    const act = btn.dataset.act;
+    if (act === 'status'){
+      const cur = p.status || 'pending';
+      const next = cur === 'pending' ? 'done' : cur === 'done' ? 'rejected' : 'pending';
+      p.status = next;
+      invalidateIdx();
+      await render(); await saveImmediate();
+      if (next === 'done'){ const rem = state.pharmacies.filter(x=>x.selected && x.status!=='done').length; toast(`✅ تم التوصيل — بقي ${rem}`); }
+    } else if (act === 'toggle'){
+      p.selected = !p.selected;
+      if (p.selected){ if (!state.routeOrder.includes(p.id)) state.routeOrder.push(p.id); }
+      else state.routeOrder = state.routeOrder.filter(id => id !== p.id);
+      state.routeGeom = null;
+      invalidateIdx();
+      await render(); saveDebounced();
+      toast(p.selected ? '✓ أُضيفت' : '○ استُبعدت');
+    } else if (act === 'focus'){
+      map.setView([p.lat, p.lng], 16);
+    } else if (act === 'del'){
+      const i = state.pharmacies.findIndex(x=>x.id===p.id);
+      if (i >= 0) state.pharmacies.splice(i, 1);
+      state.routeOrder = state.routeOrder.filter(id => id !== p.id);
+      state.routeGeom = null;
+      invalidateIdx();
+      await render(); await saveImmediate();
+      renderAreaLoadList();
+      toast('🗑️ تم الحذف', { undo: async () => {
+        if (state.pharmacies.some(x => x.id === p.id)) return;
+        state.pharmacies.splice(Math.min(i, state.pharmacies.length), 0, p); state.routeOrder.push(p.id);
+        invalidateIdx(); await render(); await saveImmediate(); renderAreaLoadList(); toast('↩ تمت الاستعادة');
+      } });
+    } else if (act === 'delivery'){
+      openDeliveryModal(p.id);
+    }
+  });
+
+  let searchTimer = null;
+  function applyFilterChange(){ clearTimeout(searchTimer); searchTimer = setTimeout(() => render(), 200); }
+  $('#searchBox')?.addEventListener('input', e => { uiFilters.search = e.target.value.trim(); applyFilterChange(); });
+  $('#filterType')?.addEventListener('change', e => { uiFilters.type = e.target.value || ''; applyFilterChange(); });
+  $('#filterArea')?.addEventListener('change', e => { uiFilters.area = e.target.value || ''; applyFilterChange(); });
+  $('#sortBy')?.addEventListener('change', e => { uiFilters.sort = e.target.value || 'area'; applyFilterChange(); });
+  $$('#areaFilter .area-chip').forEach(c => c.addEventListener('click', () => c.classList.toggle('on')));
+
+  $('#loadBuiltinBtn')?.addEventListener('click', loadBuiltin);
+  $('#clearAreasBtn')?.addEventListener('click', clearAllAreas);
+
+  // ── OSM SCAN ENGINE (8 mirrors + Race)
+  const OVERPASS_MIRRORS = [
+    'https://overpass-api.de/api/interpreter',
+    'https://overpass.kumi.systems/api/interpreter',
+    'https://overpass.private.coffee/api/interpreter',
+    'https://overpass.openstreetmap.ru/api/interpreter',
+    'https://overpass.osm.ch/api/interpreter',
+    'https://overpass.osm.jp/api/interpreter',
+    'https://overpass.osm.rambler.ru/cgi/interpreter',
+    'https://overpass.mail.ru/api/interpreter'
+  ];
+  const SCAN_CACHE_KEY = 'mawze3.scan.cache.v1';
+  const SCAN_CACHE_TTL = 24 * 60 * 60 * 1000;
+
+  function getScanCache(){ try { return JSON.parse(localStorage.getItem(SCAN_CACHE_KEY) || '{}'); } catch(_){ return {}; } }
+  function setScanCache(key, elements){
+    try {
+      const cache = getScanCache();
+      cache[key] = { elements, ts: Date.now() };
+      const entries = Object.entries(cache).sort((a,b) => b[1].ts - a[1].ts).slice(0, 20);
+      localStorage.setItem(SCAN_CACHE_KEY, JSON.stringify(Object.fromEntries(entries)));
+    } catch(_){}
+  }
+
+  // ── Circuit Breaker: 3 إخفاقات متتالية => فتح الدائرة 5 دقائق
+  const CB = new Map(), CB_MAX = 3, CB_MS = 300000;
+  function cbState(h){ let s = CB.get(h); if (!s){ s = { fails:0, openUntil:0, ok:0, total:0, last:0 }; CB.set(h, s); } return s; }
+  let _noSig = false;
+  function fetchGuarded(url, opts, sig){
+    const abortP = new Promise((_, rej) => { const f = () => rej(new DOMException('aborted', 'AbortError')); if (sig.aborted) f(); else sig.addEventListener('abort', f); });
+    abortP.catch(() => {});
+    const run = useSig => fetch(url, useSig ? { ...opts, signal: sig } : opts);
+    const p = _noSig ? run(false) : Promise.resolve().then(() => run(true)).catch(e => { if (e && e.name === 'DataCloneError'){ _noSig = true; return run(false); } throw e; });
+    return Promise.race([p, abortP]);
+  }
+  async function cbFetch(url, opts = {}, ms = 20000, ext = null){
+    const host = new URL(url).hostname, s = cbState(host);
+    if (Date.now() < s.openUntil) throw new Error('الخادم متوقف مؤقتاً: ' + host);
+    const c = new AbortController(); const t = setTimeout(() => c.abort(), ms);
+    if (ext) ext.addEventListener('abort', () => c.abort());
+    const t0 = performance.now(); s.total++;
+    try {
+      const r = await fetchGuarded(url, opts, c.signal);
+      if ((!r.ok && r.status >= 500) || r.status === 429) throw new Error('HTTP ' + r.status);
+      s.fails = 0; s.ok++; s.openUntil = 0; s.last = Math.round(performance.now() - t0);
+      return r;
+    } catch(e){
+      s.err = (e && e.message) || String(e);
+      if (!(ext && ext.aborted)){ if (++s.fails >= CB_MAX) s.openUntil = Date.now() + CB_MS; }
+      throw e;
+    } finally { clearTimeout(t); }
+  }
+  const OSRM_BASES = ['https://router.project-osrm.org/', 'https://routing.openstreetmap.de/routed-car/'];
+  async function osrmFetch(path){
+    let last = null;
+    for (const b of OSRM_BASES){
+      try { const r = await cbFetch(b + path, {}, 20000); if (r.ok) return r; last = new Error('OSRM ' + r.status); }
+      catch(e){ last = e; }
+    }
+    throw last || new Error('خوادم الطرق غير متاحة');
+  }
+  let scanCtrl = null, scanCancelled = false;
+  async function tryOverpass(mirror, query, timeoutMs = 30000){
+    const t0 = performance.now();
+    const res = await cbFetch(mirror, { method:'POST', headers:{ 'Content-Type':'application/x-www-form-urlencoded' }, body:'data=' + encodeURIComponent(query) }, timeoutMs, scanCtrl && scanCtrl.signal);
+    const data = await res.json();
+    if (!data.elements) throw new Error('استجابة غير صحيحة');
+    return { elements: data.elements, host: new URL(mirror).hostname, ms: Math.round(performance.now() - t0) };
+  }
+  async function overpassRace(query, baseTimeout = 30000){
+    scanCtrl = new AbortController();
+    const sig = scanCtrl.signal;
+    const live = OVERPASS_MIRRORS.filter(m => Date.now() >= cbState(new URL(m).hostname).openUntil);
+    if (!live.length) throw new Error('كل الخوادم متوقفة مؤقتاً — حاول بعد 5 دقائق');
+    const attempts = live.map(async (mirror, i) => {
+      if (i === 2 || i === 3) await sleep(1500); else if (i >= 4) await sleep(3000);
+      if (sig.aborted) throw new Error('aborted');
+      return await tryOverpass(mirror, query, baseTimeout);
+    });
+    try { const w = await Promise.any(attempts); scanCtrl.abort(); return w; }
+    catch(e){ scanCtrl.abort(); throw new Error('لا يوجد خادم OSM متاح — حاول بعد قليل'); }
+  }
+
+  function startScanProgress(){
+    const box = $('#scanProg'), fill = $('#scanFill'), txt = $('#scanProgTxt'), t0 = Date.now(), EXP = 30000;
+    fill.style.width = '0%'; box.style.display = 'block'; $('#scanBtn').disabled = true;
+    const iv = setInterval(() => { const el = Date.now() - t0, pct = Math.min(95, Math.round(el / EXP * 100)); fill.style.width = pct + '%'; txt.textContent = `${pct}% · المتبقي تقريباً ${Math.max(0, Math.ceil((EXP - el) / 1000))} ث (تقديري)`; }, 250);
+    return { stop(ok){ clearInterval(iv); if (ok){ fill.style.width = '100%'; txt.textContent = '100% ✓'; } $('#scanBtn').disabled = false; setTimeout(() => { box.style.display = 'none'; }, ok ? 1200 : 0); } };
+  }
+  async function scanPharmacies(areas){
+    if (!areas || !areas.length){ toast('⚠️ اختر منطقة واحدة على الأقل'); return; }
+    const scanInfo = $('#scanInfo');
+    const force = $('#scanFresh')?.checked;
+    const cacheKey = 'scan:' + areas.slice().sort().join(',');
+
+    if (!force){
+      const cache = getScanCache();
+      const cached = cache[cacheKey];
+      if (cached && (Date.now() - cached.ts) < SCAN_CACHE_TTL){
+        const ageMin = Math.round((Date.now() - cached.ts) / 60000);
+        await applyScanResults(cached.elements, areas, `💾 الذاكرة المؤقتة (${ageMin}د)`);
+        return;
+      }
+    }
+
+    scanCancelled = false;
+    const prog = startScanProgress(); let okScan = false;
+    $('#scanCancelBtn').style.display = 'block';
+    if (scanInfo) scanInfo.innerHTML = '🔄 <b>جارٍ تجربة 8 خوادم بديلة...</b><br><small>قد يستغرق 10-40 ثانية</small>';
+
+    try {
+      const boxes = areas.map(k => AREAS[k].bbox);
+      const s = Math.min(...boxes.map(b => b[0])).toFixed(5);
+      const w = Math.min(...boxes.map(b => b[1])).toFixed(5);
+      const n = Math.max(...boxes.map(b => b[2])).toFixed(5);
+      const e = Math.max(...boxes.map(b => b[3])).toFixed(5);
+      const bb = `(${s},${w},${n},${e})`;
+      const query = `[out:json][timeout:30];(nwr["amenity"="pharmacy"]${bb};nwr["healthcare"="pharmacy"]${bb};nwr["shop"="chemist"]${bb};);out center tags;`;
+      const result = await overpassRace(query, 30000);
+      setScanCache(cacheKey, result.elements);
+      await applyScanResults(result.elements, areas, `${result.host} (${result.ms}ms)`);
+      okScan = true;
+    } catch(err){
+      const msg = err.message || 'خطأ غير معروف';
+      if (scanCancelled || msg.includes('aborted')){ toast('⏹️ أُوقف المسح'); return; }
+      if (scanInfo) scanInfo.innerHTML = `❌ <b>فشل المسح</b><br><small>${esc(msg)}</small>`;
+      toast('❌ ' + msg);
+    } finally {
+      prog.stop(okScan);
+      $('#scanCancelBtn').style.display = 'none';
+    }
+  }
+
+  async function applyScanResults(elements, areas, sourceLabel){
+    const scanInfo = $('#scanInfo');
+    if (!elements || !elements.length){
+      if (scanInfo) scanInfo.innerHTML = `⚠️ لم يُعثر على صيدليات<br><small>${esc(sourceLabel)}</small>`;
+      return;
+    }
+    const sel = new Set(areas);
+    let added = 0, skipped = 0, improved = 0;
+    elements.forEach(el => {
+      const lat = el.lat ?? el.center?.lat;
+      const lng = el.lon ?? el.center?.lon;
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+      const t = el.tags || {};
+      const name = t['name:ar'] || t.name || t['name:en'] || t.brand || '';
+      if (!name.trim()) return;
+      const addr = [t['addr:street'], t['addr:housenumber'], t['addr:suburb']].filter(Boolean).join('، ');
+      const phone = t.phone || t['contact:phone'] || '';
+      const areaKey = findArea(lat, lng) || 'general';
+      if (!sel.has(areaKey) && !(areaKey === 'general' && sel.has('general'))) return;
+      const np = { id: uid(), name, addr, phone, lat, lng, area: areaKey, areaName: AREAS[areaKey]?.name || '', type:'pharmacy', selected:true, status:'pending', source:'osm', coordSource:'osm_match', osmId: el.type + '/' + el.id };
+      const existing = state.pharmacies.find(ex => {
+        if (ex.osmId && String(ex.osmId) === String(np.osmId)) return true;
+        return isSamePharmacy(ex, np);
+      });
+      if (existing){
+        if (['landmark','plot','area_center'].includes(existing.coordSource)){
+          existing.lat = lat; existing.lng = lng; existing.coordSource = 'osm_match'; existing.osmId = np.osmId; improved++;
+        }
+        skipped++;
+        return;
+      }
+      state.pharmacies.push(np);
+      state.routeOrder.push(np.id);
+      added++;
+    });
+    invalidateIdx();
+    await render();
+    await saveImmediate();
+    renderAreaLoadList();
+    if (scanInfo) scanInfo.innerHTML = `✅ <b>${elements.length}</b> نتيجة<br><small style="color:#16a34a">+${added} جديد</small> · <small style="color:#0e7490">${improved} حُسّن</small> · <small style="color:#64748b">${skipped} مكرر</small><br><small style="color:#94a3b8">📡 ${esc(sourceLabel)}</small>`;
+    if (added || improved){ toast(`✅ +${added} · ${improved} حُسّن`); fitMokattam(); }
+    else toast('✅ كل الصيدليات موجودة');
+  }
+
+  $('#scanBtn')?.addEventListener('click', () => {
+    const areas = [...$$('#areaFilter .area-chip.on')].map(c=>c.dataset.area);
+    if (!areas.length){ toast('اختر منطقة'); return; }
+    scanPharmacies(areas);
+  });
+  $('#scanCancelBtn')?.addEventListener('click', () => { scanCancelled = true; if (scanCtrl) scanCtrl.abort(); });
+
+  $('#setDepotBtn').addEventListener('click', async () => {
+    const name = $('#depotName').value.trim() || 'المستودع الرئيسي';
+    const addr = $('#depotAddr').value.trim();
+    const c = parseCoords(addr);
+    if (c){ state.depot = { name, lat:c.lat, lng:c.lng }; state.routeGeom=null; await render(); fitMokattam(); saveImmediate(); toast('✅ تم'); return; }
+    if (!addr){ toast('أدخل عنوان'); return; }
+    toast('⏳ جارٍ البحث...');
+    const g = await geocodeCached(addr);
+    if (!g){ toast('❌ لم يتم العثور'); return; }
+    state.depot = { name, lat:g.lat, lng:g.lng };
+    state.routeGeom = null;
+    await render(); fitMokattam(); saveImmediate(); toast('✅ تم');
+  });
+
+  function parseCoords(s){ const m = String(s).trim().match(/^(-?\d+(?:\.\d+)?)\s*[,;\s]\s*(-?\d+(?:\.\d+)?)$/); if (!m) return null; const lat=+m[1], lng=+m[2]; if (Math.abs(lat)>90||Math.abs(lng)>180) return null; return { lat, lng }; }
+
+  $('#pickDepotBtn').addEventListener('click', () => {
+    state.pickMode = state.pickMode === 'depot' ? null : 'depot';
+    $('#pickDepotBtn').classList.toggle('active', state.pickMode === 'depot');
+    if (state.pickMode === 'depot') toast('👆 انقر على الخريطة');
+  });
+
+  map.on('click', e => {
+    if (state.pickMode === 'depot'){
+      const name = $('#depotName').value.trim() || 'المستودع الرئيسي';
+      state.depot = { name, lat:e.latlng.lat, lng:e.latlng.lng };
+      $('#depotAddr').value = `${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`;
+      state.pickMode = null; $('#pickDepotBtn').classList.remove('active');
+      state.routeGeom = null;
+      render(); saveImmediate(); toast('✅ تم التعيين');
+    }
+    if (addFormState.pickMode){
+      addFormState.coords = { lat:e.latlng.lat, lng:e.latlng.lng };
+      $('#addAddress').value = `${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`;
+      const a = findArea(e.latlng.lat, e.latlng.lng);
+      if (a){ $('#addArea').value = a; $('#addHint').textContent = `✅ ${AREAS[a].name}`; $('#addHint').classList.add('show'); }
+      addFormState.pickMode = false; $('#addPickBtn').classList.remove('active');
+    }
+  });
+
+  $('#clearBtn').addEventListener('click', clearAllAreas);
+
+  function toggleAddForm(force){
+    const f = $('#addForm'), b = $('#toggleAddForm');
+    const open = force !== undefined ? force : f.style.display === 'none';
+    f.style.display = open ? 'block' : 'none';
+    b.textContent = open ? 'إغلاق' : 'فتح';
+    if (open) setTimeout(()=>$('#addName').focus(), 200);
+  }
+  $('#toggleAddForm').addEventListener('click', ()=>toggleAddForm());
+  $$('#typeChips .type-chip').forEach(c => c.addEventListener('click', () => { $$('#typeChips .type-chip').forEach(x=>x.classList.remove('on')); c.classList.add('on'); addFormState.type = c.dataset.type; }));
+  $('#addPickBtn').addEventListener('click', () => {
+    addFormState.pickMode = !addFormState.pickMode;
+    $('#addPickBtn').classList.toggle('active', addFormState.pickMode);
+    $('#addHint').classList.toggle('show', addFormState.pickMode);
+    $('#addHint').textContent = addFormState.pickMode ? '👆 انقر على الخريطة' : '';
+  });
+  $('#addCancelBtn').addEventListener('click', () => { resetAddForm(); toggleAddForm(false); });
+  function resetAddForm(){ $('#addName').value=''; $('#addAddress').value=''; $('#addPhone').value=''; $('#addNotes').value=''; $('#addArea').value=''; addFormState.coords=null; addFormState.pickMode=false; $('#addHint').classList.remove('show'); $('#addPickBtn').classList.remove('active'); }
+  $('#addSaveBtn').addEventListener('click', async () => {
+    const name = $('#addName').value.trim();
+    const address = $('#addAddress').value.trim();
+    const phone = $('#addPhone').value.trim();
+    const notes = $('#addNotes').value.trim();
+    const area = $('#addArea').value;
+    if (!name){ toast('أدخل الاسم'); return; }
+    if (!area){ toast('اختر المنطقة'); return; }
+    if (!address && !addFormState.coords){ toast('أدخل العنوان'); return; }
+    let coords = addFormState.coords;
+    if (!coords && address){
+      const d = parseCoords(address);
+      if (d) coords = d;
+      else { const g = await geocodeCached(address); if (g) coords = g; }
+    }
+    if (!coords){ toast('❌ لم يتم العثور'); return; }
+    const np = { id:uid(), name, addr:address, phone, notes, lat:coords.lat, lng:coords.lng, area, areaName:AREAS[area].name, type:addFormState.type, selected:true, status:'pending' };
+    state.pharmacies.push(np); state.routeOrder.push(np.id);
+    invalidateIdx(); await render(); await saveImmediate();
+    resetAddForm(); toggleAddForm(false); renderAreaLoadList();
+    toast(`✅ تمت إضافة "${name}"`);
+    map.setView([coords.lat, coords.lng], 16);
+  });
+
+  const geoCache = new Map();
+  let lastCall = 0;
+  async function geocodeCached(q){
+    const k = 'g:' + String(q).toLowerCase().slice(0, 100);
+    if (geoCache.has(k)) return geoCache.get(k);
+    const wait = 1100 - (Date.now() - lastCall);
+    if (wait > 0) await sleep(wait);
+    lastCall = Date.now();
+    try {
+      const r = await cbFetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=eg&q=${encodeURIComponent(q)}`, {}, 12000);
+      if (r.ok){ const j = await r.json(); if (j.length){ const c = { lat:+j[0].lat, lng:+j[0].lon }; geoCache.set(k, c); return c; } }
+    } catch(e){}
+    try {
+      const r = await cbFetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=1&lang=ar`, {}, 12000);
+      if (r.ok){ const j = await r.json(); if (j.features?.length){ const [lng, lat] = j.features[0].geometry.coordinates; const c = { lat, lng }; geoCache.set(k, c); return c; } }
+    } catch(e){}
+    return null;
+  }
+
+  async function fetchRoute(pts){
+    const CH = 80; let coords = [], km = 0, minutes = 0;
+    for (let i = 0; i < pts.length - 1; i += CH - 1){ const seg = pts.slice(i, i + CH); if (seg.length < 2) break; const g = await fetchRouteSeg(seg); coords = coords.concat(g.coords); km += g.km; minutes += g.minutes; }
+    return { coords, km, minutes };
+  }
+  async function fetchRouteSeg(pts){
+    const coords = pts.map(p => `${p.lng},${p.lat}`).join(';');
+    const r = await osrmFetch(`route/v1/driving/${coords}?overview=full&geometries=geojson`);
+    if (!r.ok) throw new Error('OSRM ' + r.status);
+    const j = await r.json();
+    if (!j.routes?.length) throw new Error('No route');
+    const route = j.routes[0];
+    return { coords: route.geometry.coordinates.map(c => [c[1], c[0]]), km: route.distance / 1000, minutes: route.duration / 60 };
+  }
+
+  $('#optimizeBtn').addEventListener('click', async () => {
+    const sel = state.pharmacies.filter(p=>p.selected);
+    if (!state.depot){ toast('عيّن نقطة الانطلاق'); return; }
+    if (!sel.length){ toast('اختر صيدلية واحدة على الأقل'); return; }
+    const useRoads = $('#roadChk').checked;
+    const useTraffic = $('#trafficChk').checked;
+    setBusy(true, useRoads ? 'جارٍ حساب الطرق...' : 'جارٍ التحسين...');
+    try {
+      const pts = [state.depot, ...sel];
+      let matrix = straightMatrix(pts);
+      if (useRoads && pts.length <= 80){
+        try {
+          const coords = pts.map(p=>`${p.lng},${p.lat}`).join(';');
+          const r = await osrmFetch(`table/v1/driving/${coords}?annotations=distance`);
+          if (r.ok){ const j = await r.json(); if (j.distances){ matrix = j.distances.map(row => row.map(v => v == null ? 0 : v/1000)); } }
+        } catch(e){ console.warn('[osrm]', e); }
+      }
+      const tour = solveTSP(matrix);
+      const km = dist(matrix, tour);
+      const ordered = tour.filter(i => i !== 0).map(i => sel[i-1]);
+      state.routeOrder = ordered.map(p => p.id);
+      let minutes = null, realKm = km;
+      if (useRoads){
+        try {
+          const g = await fetchRoute([state.depot, ...ordered]);
+          state.routeGeom = g.coords;
+          realKm = g.km || km;
+          minutes = g.minutes;
+        } catch(e){ state.routeGeom = null; }
+      } else state.routeGeom = null;
+      const tf = useTraffic ? trafficFactor() : 1;
+      state.metrics = { km: realKm, minutes, trafficFactor: tf };
+      invalidateIdx();
+      await render(); await saveImmediate();
+      fitRoute(); showStats(realKm, minutes, tf);
+      toast(`✅ تم التحسين · ${trafficLabel(tf).text}` + (useRoads && !state.routeGeom ? ' · ⚠️ خوادم الطرق غير متاحة، المسافات تقديرية' : ''));
+    } catch(e){ toast('❌ ' + e.message); }
+    finally { setBusy(false); }
+  });
+
+  const dmState = { pharmId: null, items: [], signatureDataUrl: null, signerName: '', notes: '' };
+  let sigCtx = null, sigHasInk = false, sigDown = false;
+  function initSig(){
+    const c = $('#dmSigCanvas'); if (!c) return;
+    const r = c.getBoundingClientRect();
+    if (r.width < 10) return setTimeout(initSig, 200);
+    const dpr = window.devicePixelRatio || 1;
+    c.width = r.width * dpr; c.height = r.height * dpr;
+    sigCtx = c.getContext('2d');
+    sigCtx.scale(dpr, dpr);
+    sigCtx.strokeStyle = '#0f172a'; sigCtx.lineWidth = 2.5; sigCtx.lineCap = 'round';
+    const pos = e => { const b = c.getBoundingClientRect(); return { x: (e.touches?.[0]?.clientX ?? e.clientX) - b.left, y: (e.touches?.[0]?.clientY ?? e.clientY) - b.top }; };
+    const down = e => { e.preventDefault(); sigDown = true; sigHasInk = true; const {x,y} = pos(e); sigCtx.beginPath(); sigCtx.moveTo(x,y); };
+    const move = e => { if (!sigDown) return; e.preventDefault(); const {x,y} = pos(e); sigCtx.lineTo(x,y); sigCtx.stroke(); };
+    const up = () => { sigDown = false; };
+    c.addEventListener('pointerdown', down);
+    c.addEventListener('pointermove', move);
+    c.addEventListener('pointerup', up);
+    c.addEventListener('pointerleave', up);
+  }
+  async function openDeliveryModal(id){
+    const p = state.pharmacies.find(x => x.id === id);
+    if (!p) return;
+    dmState.pharmId = id;
+    dmState.items = p._delivery?.items || [];
+    dmState.signatureDataUrl = p._delivery?.signatureDataUrl || null;
+    dmState.signerName = p._delivery?.signerName || '';
+    dmState.notes = p._delivery?.notes || '';
+    $('#dmTitle').textContent = '📋 ' + p.name;
+    $('#dmSignedBy').value = dmState.signerName;
+    $('#dmNotes').value = dmState.notes;
+    renderDmItems(); updateDmProgress();
+    $('#dmModal').classList.add('show');
+    await sleep(300);
+    initSig();
+  }
+  function closeDeliveryModal(){ $('#dmModal').classList.remove('show'); dmState.pharmId = null; }
+  function renderDmItems(){
+    const ul = $('#dmItemsList'); ul.innerHTML = '';
+    if (!dmState.items.length) ul.innerHTML = '<li class="dm-empty">لا توجد أصناف</li>';
+    else dmState.items.forEach(it => {
+      const li = document.createElement('li'); li.className = 'dm-item-row';
+      li.innerHTML = `<div class="info"><b>${esc(it.name)}</b>${it.coldChain?' <span style="color:#1e40af">❄️</span>':''}<div class="sub"><span>📦 ${it.qty}</span>${it.batch?`<span>🔖 ${esc(it.batch)}</span>`:''}</div></div><button class="del" data-id="${it.id}">✕</button>`;
+      ul.appendChild(li);
+    });
+    $('#dmItemsCount').textContent = dmState.items.length + ' صنف';
+    updateDmProgress();
+  }
+  function updateDmProgress(){
+    const checks = [dmState.items.length > 0, !!dmState.signatureDataUrl || sigHasInk, !!$('#dmSignedBy').value.trim()];
+    const pct = Math.round(checks.filter(Boolean).length / checks.length * 100);
+    $('#dmProgressFill').style.width = pct + '%';
+    $('#dmProgressTxt').textContent = pct + '%';
+  }
+  $('#itemAddBtn').addEventListener('click', () => {
+    const name = $('#itemName').value.trim();
+    if (!name){ toast('أدخل اسم الصنف'); return; }
+    const qty = parseInt($('#itemQty').value, 10) || 1;
+    dmState.items.push({ id: uid(), name, batch: $('#itemBatch').value.trim(), qty, coldChain: $('#itemCold').checked });
+    $('#itemName').value = ''; $('#itemBatch').value = ''; $('#itemQty').value = '1'; $('#itemCold').checked = false;
+    renderDmItems();
+  });
+  $('#dmItemsList').addEventListener('click', e => {
+    const btn = e.target.closest('button.del');
+    if (!btn) return;
+    dmState.items = dmState.items.filter(x => x.id !== btn.dataset.id);
+    renderDmItems();
+  });
+  $('#dmSignedBy').addEventListener('input', updateDmProgress);
+  $('#dmSigClear').addEventListener('click', () => { if (sigCtx){ const c = $('#dmSigCanvas'); sigCtx.clearRect(0, 0, c.width, c.height); } sigHasInk = false; updateDmProgress(); });
+  $('#dmSave').addEventListener('click', async () => {
+    const p = state.pharmacies.find(x => x.id === dmState.pharmId);
+    if (!p){ toast('❌ لم يتم العثور على الصيدلية'); return; }
+    let sig = null;
+    if (sigHasInk){
+      const c = $('#dmSigCanvas');
+      const t = document.createElement('canvas');
+      t.width = 600; t.height = Math.round(600 * c.height / c.width);
+      t.getContext('2d').drawImage(c, 0, 0, t.width, t.height);
+      sig = t.toDataURL('image/png');
+    }
+    p._delivery = { items: dmState.items.slice(), signatureDataUrl: sig, signerName: $('#dmSignedBy').value.trim(), notes: $('#dmNotes').value.trim(), deliveredAt: Date.now() };
+    if (dmState.items.length > 0 && p.status !== 'done') p.status = 'done';
+    invalidateIdx();
+    await render(); await saveImmediate();
+    toast('✅ تم حفظ التسليم');
+    closeDeliveryModal();
+  });
+  $('#dmClose').addEventListener('click', closeDeliveryModal);
+  $('#dmDelete').addEventListener('click', async () => {
+    const p = state.pharmacies.find(x => x.id === dmState.pharmId);
+    if (!p || !confirm('حذف بيانات التسليم؟')) return;
+    delete p._delivery; if (p.status === 'done') p.status = 'pending';
+    closeDeliveryModal(); invalidateIdx(); await render(); await saveImmediate(); toast('🗑️ حُذف التسليم');
+  });
+  $('#dmPdf').addEventListener('click', () => {
+    const p = state.pharmacies.find(x => x.id === dmState.pharmId); if (!p) return;
+    const sig = sigHasInk ? $('#dmSigCanvas').toDataURL('image/png') : (p._delivery?.signatureDataUrl || '');
+    const rows = dmState.items.map((it, i) => `<tr><td>${i+1}</td><td>${esc(it.name)}</td><td>${esc(it.batch||'—')}</td><td>${esc(it.qty)}</td><td>${it.coldChain?'❄️':''}</td></tr>`).join('');
+    const html = `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>إذن تسليم</title><style>body{font-family:Cairo,sans-serif;padding:20px}table{width:100%;border-collapse:collapse}th{background:#0e7490;color:#fff;padding:8px}td{padding:8px;border-bottom:1px solid #ddd}img{max-width:260px;border:1px solid #ccc}</style></head><body><h2>📋 إذن تسليم — ${esc(p.name)}</h2><p>${esc(p.addr||'')} · ${new Date().toLocaleString('ar-EG')}</p><table><tr><th>#</th><th>الصنف</th><th>الدفعة</th><th>الكمية</th><th>تبريد</th></tr>${rows}</table><p>المستلم: ${esc($('#dmSignedBy').value)}</p>${sig.startsWith('data:image/png')?`<img src="${sig}" alt="">`:''}<p>${esc($('#dmNotes').value)}</p><button onclick="window.print()">🖨️ طباعة</button></body></html>`;
+    const url = URL.createObjectURL(new Blob([html], { type:'text/html;charset=utf-8' }));
+    if (!window.open(url, '_blank')) toast('❌ فعّل النوافذ');
+  });
+
+  $('#reportBtn').addEventListener('click', () => {
+    const sel = state.pharmacies.filter(p => p.selected);
+    if (!sel.length){ toast('لا توجد صيدليات'); return; }
+    const w = window.open('', '_blank');
+    if (!w){ toast('❌ فعّل النوافذ'); return; }
+    const rows = sel.map((p, i) => `<tr><td>${i+1}</td><td><b>${esc(p.name)}</b></td><td>${esc(p.addr||'—')}</td><td>${esc(p.phone||'—')}</td><td>${p.status==='done'?'✅':p.status==='rejected'?'❌':'⏳'}</td></tr>`).join('');
+    w.document.write(`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>تقرير التوزيع</title><style>body{font-family:'Cairo',sans-serif;padding:20px;direction:rtl}h1{color:#0e7490}table{width:100%;border-collapse:collapse;margin-top:20px}th{background:#0e7490;color:#fff;padding:10px;text-align:right}td{padding:8px;border-bottom:1px solid #e2e8f0}@media print{button{display:none}}</style></head><body><button onclick="window.print()" style="background:#0e7490;color:#fff;padding:10px 20px;border:none;border-radius:8px;font-weight:700;cursor:pointer;margin-bottom:15px">🖨️ طباعة</button><h1>💊 تقرير توزيع الأدوية — المقطم</h1><p>${new Date().toLocaleString('ar-EG')}</p><table><thead><tr><th>#</th><th>الاسم</th><th>العنوان</th><th>الهاتف</th><th>الحالة</th></tr></thead><tbody>${rows}</tbody></table></body></html>`);
+    w.document.close();
+  });
+  $('#reportXlsxBtn').addEventListener('click', () => {
+    if (typeof XLSX === 'undefined'){ toast('⚠️ SheetJS غير محمّل — تصدير CSV بدلاً منه'); $('#reportCsvBtn').click(); return; }
+    const sel = state.pharmacies.filter(p => p.selected);
+    const rows = [['#','الاسم','العنوان','الهاتف','الحالة']];
+    sel.forEach((p, i) => rows.push([i+1, p.name, p.addr||'', p.phone||'', p.status==='done'?'تم':p.status==='rejected'?'مرفوض':'بانتظار']));
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'التقرير');
+    XLSX.writeFile(wb, `mokattam-${new Date().toISOString().slice(0,10)}.xlsx`);
+    toast('✅ تم التصدير');
+  });
+  $('#reportCsvBtn').addEventListener('click', () => {
+    const sel = state.pharmacies.filter(p => p.selected);
+    let csv = '\ufeff' + ['#','الاسم','العنوان','الهاتف','الحالة'].join(',') + '\n';
+    sel.forEach((p, i) => { csv += [i+1, `"${p.name}"`, `"${p.addr||''}"`, `"${p.phone||''}"`, p.status||'pending'].join(',') + '\n'; });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'mokattam.csv'; a.click();
+    toast('✅ تم التصدير');
+  });
+  $('#reportWhatsBtn').addEventListener('click', () => {
+    const sel = state.pharmacies.filter(p => p.selected);
+    const done = sel.filter(p => p.status === 'done').length;
+    const text = `💊 تقرير التوزيع — المقطم\n📊 إجمالي: ${sel.length}\n✅ تم: ${done}\n⏳ بانتظار: ${sel.length - done}`;
+    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+  });
+  $('#backupBtn').addEventListener('click', () => {
+    const data = { version:1, exportedAt:new Date().toISOString(), depot:state.depot, pharmacies:state.pharmacies.map(p=>{ return p; }), routeOrder:state.routeOrder };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `backup-${new Date().toISOString().slice(0,10)}.json`; a.click();
+    toast('✅ نسخة احتياطية');
+  });
+  $('#restoreBtn').addEventListener('click', () => $('#restoreInput').click());
+  $('#restoreInput').addEventListener('change', async e => {
+    const f = e.target.files?.[0]; if (!f) return;
+    try {
+      const d = JSON.parse(await f.text());
+      if (!d.pharmacies){ toast('❌ ملف غير صالح'); return; }
+      state.depot = d.depot || null;
+      state.pharmacies = d.pharmacies.filter(p => p && p.name && Number.isFinite(+p.lat) && Number.isFinite(+p.lng)).map(p => ({ ...p, id: String(p.id || uid()).replace(/[^\w-]/g, ''), name: String(p.name), lat: +p.lat, lng: +p.lng, type: p.type || 'pharmacy', area: AREAS[p.area] ? p.area : 'general', selected: p.selected !== false }));
+      state.routeOrder = d.routeOrder || state.pharmacies.map(p => p.id);
+      invalidateIdx();
+      await render(); await saveImmediate();
+      renderAreaLoadList();
+      toast('✅ تمت الاستعادة');
+    } catch(err){ toast('❌ ' + err.message); }
+  });
+  $('#gpxBtn').addEventListener('click', () => {
+    const sel = state.pharmacies.filter(p => p.selected);
+    let s = '<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Mawze3" xmlns="http://www.topografix.com/GPX/1/1">\n';
+    if (state.depot) s += `<wpt lat="${state.depot.lat}" lon="${state.depot.lng}"><name>🏭 ${esc(state.depot.name)}</name></wpt>\n`;
+    sel.forEach((p, i) => { s += `<wpt lat="${p.lat}" lon="${p.lng}"><name>${i+1}. ${esc(p.name)}</name></wpt>\n`; });
+    s += '</gpx>';
+    const blob = new Blob([s], { type: 'application/gpx+xml' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'route.gpx'; a.click();
+    toast('✅ تم التصدير');
+  });
+  $('#csvBtn').addEventListener('click', () => {
+    const sel = state.pharmacies.filter(p => p.selected);
+    let csv = '\ufeff' + ['#','الاسم','lat','lng'].join(',') + '\n';
+    sel.forEach((p, i) => { csv += [i+1, `"${p.name}"`, p.lat, p.lng].join(',') + '\n'; });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'route.csv'; a.click();
+    toast('✅ تم التصدير');
+  });
+  $('#shareBtn').addEventListener('click', async () => {
+    const sel = state.pharmacies.filter(p => p.selected);
+    let text = '💊 مسار التوزيع — المقطم\n';
+    sel.forEach((p, i) => { text += `${i+1}. ${p.name}\nhttps://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}\n`; });
+    if (navigator.share){ try { await navigator.share({ title:'مسار', text }); return; } catch(e){} }
+    if (navigator.clipboard){ await navigator.clipboard.writeText(text); toast('✅ تم النسخ'); return; }
+    toast('❌ غير مدعوم');
+  });
+  $('#qualityReportBtn').addEventListener('click', () => {
+    const stats = {};
+    state.pharmacies.forEach(p => { const k = p.coordSource || 'xlsx'; stats[k] = (stats[k]||0) + 1; });
+    const labels = { xlsx:'📘 Excel', geocoded:'🟢 Geocoded', osm_match:'🟢 OSM', landmark:'🟡 معلم', plot:'🟡 قطعة', area_center:'🔴 مركز' };
+    const lines = Object.entries(stats).map(([k,v]) => `${labels[k]||k}: ${v}`).join('\n');
+    alert(`📊 تقرير جودة الإحداثيات\n\n${lines}\n\nالإجمالي: ${state.pharmacies.length}`);
+  });
+  $('#resetCoordsBtn').addEventListener('click', async () => {
+    if (!confirm('إعادة تعيين الإحداثيات؟')) return;
+    const seedMap = new Map();
+    SEED.forEach(s => seedMap.set(normalizeAr(s.name), s));
+    let r = 0;
+    state.pharmacies.forEach(p => {
+      const sd = seedMap.get(normalizeAr(p.name));
+      if (sd){ p.lat = sd.lat; p.lng = sd.lng; p.coordSource = sd.coordSource; r++; }
+    });
+    invalidateIdx();
+    await render(); await saveImmediate();
+    toast(`🔄 أُعيد تعيين ${r} صيدلية`);
+  });
+
+  let fixAbort = false;
+  $('#fixCoordsBtn').addEventListener('click', async () => {
+    const targets = state.pharmacies.filter(p => ['landmark','plot','area_center'].includes(p.coordSource));
+    if (!targets.length){ toast('✅ لا توجد إحداثيات تقديرية'); return; }
+    if (!confirm(`إصلاح ${targets.length} صيدلية؟`)) return;
+    fixAbort = false;
+    $('#fixCoordsBtn').style.display = 'none';
+    $('#fixCoordsCancelBtn').style.display = 'flex';
+    $('#fixProgress').style.display = 'block';
+    let fixed = 0, failed = 0, idx = 0;
+    for (const p of targets){
+      if (fixAbort) break;
+      idx++;
+      $('#fixProgress').innerHTML = `🔄 <b>${idx}/${targets.length}</b> — ✅ ${fixed} · ❌ ${failed}<br><small>${esc(p.name.slice(0,30))}</small>`;
+      const q = `${p.name}، ${p.addr || ''} المقطم القاهرة`;
+      const g = await geocodeCached(q);
+      if (g){ p.lat = g.lat; p.lng = g.lng; p.coordSource = 'geocoded'; fixed++; }
+      else failed++;
+      if (idx % 5 === 0){ await render(); await saveImmediate(); }
+    }
+    invalidateIdx();
+    await render(); await saveImmediate();
+    $('#fixCoordsBtn').style.display = 'flex';
+    $('#fixCoordsCancelBtn').style.display = 'none';
+    $('#fixProgress').innerHTML = `✅ ${fixed} مصححة · ${failed} فشلت`;
+    setTimeout(()=>{ $('#fixProgress').style.display='none'; }, 6000);
+    toast(`✅ تم إصلاح ${fixed} صيدلية`);
+  });
+  $('#fixCoordsCancelBtn').addEventListener('click', () => { fixAbort = true; toast('⏹️ جارٍ الإيقاف'); });
+
+  $('#faServers').addEventListener('click', () => {
+    $('#srvPanel').classList.add('show');
+    renderSrvPanel();
+  });
+  function renderSrvPanel(){
+    const row = (name, host) => { const s = CB.get(host); let st = 'لم يُختبر بعد'; if (s && s.total){ const pct = Math.round(s.ok/s.total*100); st = (Date.now()<s.openUntil ? '🔴 مغلق مؤقتاً · ' : (s.ok ? '🟢 ' : '🔴 ')) + pct + '%' + (s.ok ? ' · ' + s.last + 'ms' : ' · ' + (s.err || 'فشل')); } return `<div class="srv-item"><span class="dot"></span><span class="name">${esc(name)}<small>${esc(st)}</small></span></div>`; };
+    $('#srvListOv').innerHTML = OVERPASS_MIRRORS.map(m => { const h = new URL(m).hostname; return row(h, h); }).join('');
+    $('#srvListOsrm').innerHTML = row('router.project-osrm.org','router.project-osrm.org') + row('routing.openstreetmap.de','routing.openstreetmap.de');
+    $('#srvListGeo').innerHTML = row('Nominatim','nominatim.openstreetmap.org') + row('Photon','photon.komoot.io');
+  }
+  setInterval(() => { if ($('#srvPanel').classList.contains('show')) renderSrvPanel(); }, 10000);
+  $('#srvClose').addEventListener('click', () => $('#srvPanel').classList.remove('show'));
+  $('#srvClose2').addEventListener('click', () => $('#srvPanel').classList.remove('show'));
+  $('#srvTestAll').addEventListener('click', async () => { toast('🧪 جارٍ الاختبار...'); await Promise.allSettled(OVERPASS_MIRRORS.map(m => cbFetch(m.replace(/interpreter$/, 'status'), {}, 8000))); renderSrvPanel(); toast('✅ انتهى الاختبار'); });
+  $('#srvModeAuto').addEventListener('click', () => { $('#srvModeAuto').classList.add('on'); $('#srvModeManual').classList.remove('on'); });
+  $('#srvModeManual').addEventListener('click', () => { $('#srvModeManual').classList.add('on'); $('#srvModeAuto').classList.remove('on'); });
+
+  $('#faAdd').addEventListener('click', () => { window.scrollTo({ top:0, behavior:'smooth' }); toggleAddForm(true); });
+  $('#faLoad').addEventListener('click', loadBuiltin);
+  $('#faOptimize').addEventListener('click', () => $('#optimizeBtn').click());
+
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k'){ e.preventDefault(); $('#searchBox')?.focus(); }
+    if ((e.ctrlKey || e.metaKey) && e.key === 's'){ e.preventDefault(); saveNow(); toast('💾 تم الحفظ'); }
+    if (e.key === 'Escape'){ closeDeliveryModal(); $('#srvPanel').classList.remove('show'); }
+  });
+
+  (async () => {
+    populateAreas();
+    updateSeedTotalCount();
+    renderAreaLoadList();
+    load();
+    state.pharmacies.forEach(p => { if (!p.type) p.type = 'pharmacy'; if (!p.area) p.area = 'general'; if (p.selected === undefined) p.selected = true; });
+    invalidateIdx();
+    await render();
+    renderAreaLoadList();
+    if (state.pharmacies.length) fitToPharmacies(); else fitMokattam();
+    startAutoSave();
+    if (!state.pharmacies.length) setTimeout(()=>toast('اختر منطقة أو اضغط "تحميل الكل"'), 800);
+  })();
+
+  (function(){
+    const b = document.createElement('div'); b.id = 'netBanner'; document.body.appendChild(b);
+    function upd(){ let c = 'ok', t = '🟢 متصل';
+      if (!navigator.onLine){ c = 'off'; t = '🔴 غير متصل — يعمل التطبيق بالبيانات المحفوظة'; }
+      else if ([...CB.values()].some(x => Date.now() < x.openUntil)){ c = 'part'; t = '🟡 بعض الخوادم متوقفة مؤقتاً'; }
+      b.className = c; b.textContent = t; }
+    window.addEventListener('online', upd); window.addEventListener('offline', upd); setInterval(upd, 10000); upd();
+  })();
+  const THEME_KEY = 'mawze3.theme';
+  function applyTheme(t){
+    const r = document.documentElement; if (t === 'light' || t === 'dark') r.setAttribute('data-theme', t); else r.removeAttribute('data-theme');
+    const dark = t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme:dark)').matches);
+    const m = document.querySelector('meta[name=theme-color]'); if (m) m.setAttribute('content', dark ? '#0f172a' : '#0e7490');
+  }
+  let theme = 'auto'; try { theme = localStorage.getItem(THEME_KEY) || 'auto'; } catch(_){}
+  applyTheme(theme);
+  $('#faTheme').addEventListener('click', () => {
+    theme = theme === 'auto' ? 'light' : theme === 'light' ? 'dark' : 'auto';
+    try { localStorage.setItem(THEME_KEY, theme); } catch(_){}
+    applyTheme(theme); toast({ auto:'🌓 المظهر: تلقائي', light:'☀️ المظهر: فاتح', dark:'🌙 المظهر: داكن' }[theme]);
+  });
+
+  // ── Self-test (20 فحصاً)
+  let lastReport = '';
+  function runSelfTest(){
+    const res = [], add = (n, ok, d = '', warn = false) => res.push({ n, ok, d, warn });
+    const t = (n, f, warn) => { try { const r = f(); add(n, r === true || (r && r.ok), (r && r.d) || '', warn); } catch(e){ add(n, false, e.message, warn); } };
+    t('Leaflet', () => typeof L !== 'undefined');
+    t('MarkerCluster', () => typeof L.markerClusterGroup === 'function', true);
+    t('SheetJS', () => typeof XLSX !== 'undefined', true);
+    t('153 صيدلية مدمجة', () => ({ ok: SEED.length === 153, d: SEED.length }));
+    t('9 مناطق', () => AREA_KEYS.length === 9);
+    t('إحداثيات المدمجة ضمن المقطم', () => SEED.every(p => p.lat > 29.95 && p.lat < 30.08 && p.lng > 31.23 && p.lng < 31.37));
+    t('الخريطة', () => !!map && map.getZoom() >= 11);
+    t('localStorage يعمل', () => { localStorage.setItem('__t', '1'); localStorage.removeItem('__t'); return true; });
+    t('بيانات محفوظة سليمة', () => { const r = localStorage.getItem(LS_KEY); if (r) JSON.parse(r); return true; });
+    t('تطبيع عربي', () => normalizeAr('أحمد') === normalizeAr('احمد'));
+    t('haversine', () => { const d = haversine({lat:30,lng:31},{lat:30.01,lng:31}); return { ok: d > 1.0 && d < 1.2, d: d.toFixed(2) + 'km' }; });
+    t('Levenshtein', () => lev('abc','abd') === 1);
+    t('كشف التكرار', () => isSamePharmacy({name:'صيدلية النور',lat:30.01,lng:31.3},{name:'صيدلية النور',lat:30.01,lng:31.3}));
+    t('TSP على 153 نقطة < 1ث', () => { const t0 = performance.now(); solveTSP(straightMatrix(SEED)); const ms = Math.round(performance.now() - t0); return { ok: ms < 1000, d: ms + 'ms' }; }, true);
+    t('الفلترة < 100ms', () => { const t0 = performance.now(); getFiltered(); const ms = Math.round(performance.now() - t0); return { ok: ms < 100, d: ms + 'ms' }; }, true);
+    t('معرّفات فريدة', () => new Set(state.pharmacies.map(p => p.id)).size === state.pharmacies.length);
+    t('لا إحداثيات NaN', () => state.pharmacies.every(p => Number.isFinite(p.lat) && Number.isFinite(p.lng)));
+    t('نقطة الانطلاق معيّنة', () => !!state.depot, true);
+    t('متصل بالإنترنت', () => navigator.onLine, true);
+    t('لا دوائر خوادم مفتوحة', () => ![...CB.values()].some(x => Date.now() < x.openUntil), true);
+    const bad = res.filter(r => !r.ok && !r.warn).length, warn = res.filter(r => !r.ok && r.warn).length;
+    lastReport = res.map(r => (r.ok ? '✅ ' : r.warn ? '⚠️ ' : '❌ ') + r.n + (r.d ? ' — ' + r.d : '')).join('\n') + `\n\nالنتيجة: ${res.length - bad - warn}/${res.length} · ❌ ${bad} · ⚠️ ${warn}`;
+    const out = $('#selfTestOut'); out.textContent = '';
+    res.forEach(r => { const d = document.createElement('div'); d.style.color = r.ok ? '#16a34a' : r.warn ? '#d97706' : '#dc2626'; d.textContent = (r.ok ? '✅ ' : r.warn ? '⚠️ ' : '❌ ') + r.n + (r.d ? ' — ' + r.d : ''); out.appendChild(d); });
+    const sum = document.createElement('b'); sum.textContent = `النتيجة: ${res.length - bad - warn}/${res.length}`; out.appendChild(sum);
+    const cp = document.createElement('button'); cp.className = 'link'; cp.textContent = '📋 نسخ التقرير';
+    cp.onclick = async () => { try { await navigator.clipboard.writeText(lastReport); toast('✅ تم النسخ'); } catch(_){ toast('❌ تعذّر النسخ'); } };
+    out.appendChild(cp);
+  }
+  $('#srvSelfTest').addEventListener('click', runSelfTest);
+  window.addEventListener('error', () => { if (window.__errT) return; window.__errT = 1; toast('⚠️ حدث خطأ — افتح 🌐 ثم 🩺 فحص ذاتي'); });
+  window.__booted = true;
+}
+</script>
+</body>
+</html>
